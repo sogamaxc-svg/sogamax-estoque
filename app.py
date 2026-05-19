@@ -557,7 +557,14 @@ def main():
         cols_base = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "CURVA", "ESTOQUE", "VB 90", "DIAS DA ULTIMA VB", "SOGAMAX", "CUSTO SOGAMAX"]
         cols_final = cols_base + cols_extra + ["VALIDADE", "PRIORIDADE", "AÇÃO RECOMENDADA"]
         
-        d = df_filtered[cols_final].copy()
+        # Preparar dados para exibição
+        cols_base = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "CURVA", "ESTOQUE", "VB 90", "DIAS DA ULTIMA VB", "SOGAMAX", "CUSTO SOGAMAX"]
+        cols_final = cols_base + cols_extra + ["VALIDADE", "PRIORIDADE", "AÇÃO RECOMENDADA"]
+
+        # Manter apenas colunas existentes
+        cols_existentes = [c for c in cols_final if c in df_filtered.columns]
+
+        d = df_filtered[cols_existentes].copy()
         
         # Formatação de Moeda
         for c in ["SOGAMAX", "CUSTO SOGAMAX", "VALOR VENDA ESTOQUE", "SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA R$"]:
