@@ -1,5 +1,5 @@
 """
-SOGAMAX - Inteligência Estratégica de Estoque v4.9 (CONFIABILIDADE OPERACIONAL)
+SOGAMAX - Análise de Estoque (CONFIABILIDADE OPERACIONAL)
 Dashboard de Diretoria | Contagem Oficial, Filtros Dinâmicos, Exportação Excel
 MODIFICADO: + Aba Todos os Produtos + 2 Cards Financeiros
 """
