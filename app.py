@@ -227,37 +227,33 @@ def get_strategic_action_v6(row):
         # Caso padrão
         return ("Baixa prioridade", "ESTOQUE ADEQUADO (manter estratégia)")
     
+      # ═══════════════════════════════════════════════════════════════════════════════
+    # REGRA 4: MERCADO & PREÇO (CORRIGIDA)
     # ═══════════════════════════════════════════════════════════════════════════════
-    # REGRA 4: MERCADO & PREÇO
-    # ═══════════════════════════════════════════════════════════════════════════════
-    
-   # ═══════════════════════════════════════════════════════════════════════════════
-# REGRA 4: MERCADO & PREÇO (CORRIGIDA)
-# ═══════════════════════════════════════════════════════════════════════════════
 
-if not is_parado and not is_ruptura:
+    if not is_parado and not is_ruptura:
 
-    # Sem concorrência = apenas monitorar
-    if media_concorrencia == 0 or media_concorrencia is None:
-        return ("Baixa prioridade", "MONITORAR PREÇO")
+        # Sem concorrência = apenas monitorar
+        if media_concorrencia == 0 or media_concorrencia is None:
+            return ("Baixa prioridade", "MONITORAR PREÇO")
 
-    # Diferença percentual REAL
-    dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
+        # Diferença percentual REAL
+        dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
 
-    # MUITO acima do mercado
-    if dif_pct >= 20:
-        return ("Alta prioridade", "REDUZIR PREÇO URGENTE")
+        # MUITO acima do mercado
+        if dif_pct >= 20:
+            return ("Alta prioridade", "REDUZIR PREÇO URGENTE")
 
-    # Acima do mercado
-    if 5 <= dif_pct < 20:
-        return ("Média prioridade", "AJUSTAR PREÇO")
+        # Acima do mercado
+        if 5 <= dif_pct < 20:
+            return ("Média prioridade", "AJUSTAR PREÇO")
 
-    # Muito abaixo do mercado
-    if dif_pct <= -15:
-        return ("Média prioridade", "REVISAR MARGEM")
+        # Muito abaixo do mercado
+        if dif_pct <= -15:
+            return ("Média prioridade", "REVISAR MARGEM")
 
-    # Preço saudável
-    return ("Baixa prioridade", "PREÇO COMPETITIVO")
+        # Preço saudável
+        return ("Baixa prioridade", "PREÇO COMPETITIVO")
     
     # ═══════════════════════════════════════════════════════════════════════════════
     # CASO PADRÃO (nenhuma regra se aplica)
