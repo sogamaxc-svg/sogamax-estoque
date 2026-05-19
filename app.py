@@ -231,8 +231,7 @@ def get_strategic_action_v6(row):
     # REGRA 4: MERCADO & PREÇO (CORRIGIDA)
     # ═══════════════════════════════════════════════════════════════════════════════
 
-    # Mesmo parado, analisar mercado também
-if media_concorrencia > 0:
+    if media_concorrencia > 0:
 
     dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
 
@@ -260,7 +259,6 @@ return ("Baixa prioridade", "SEM BASE DE MERCADO")
     # ═══════════════════════════════════════════════════════════════════════════════
     
     return ("Baixa prioridade", "MANTER — sem ações críticas")
-
 
 
 # ─────────────────────────────────────────────
