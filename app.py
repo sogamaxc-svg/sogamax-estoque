@@ -484,7 +484,7 @@ def main():
         
         # Calcular margem potencial usando dados de TODOS OS PRODUTOS
         valor_venda_geral_temp = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
-            df_todos.get("VENDA SOGAMAX ", df_todos.get("VENDA SOGAMAX", pd.Series(0))).fillna(0).astype(float)
+            df_todos.get("SOGAMAX", df_todos.get("SOGAMAX", pd.Series(0))).fillna(0).astype(float)
         ).sum()
         custo_geral_temp = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
             df_todos.get("CUSTO SOGAMAX ", df_todos.get("CUSTO SOGAMAX", pd.Series(0))).fillna(0).astype(float)
@@ -500,7 +500,7 @@ def main():
         
         # Card 1: Valor venda estoque geral
         valor_venda_geral = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
-            df_todos.get("VENDA SOGAMAX ", df_todos.get("VENDA SOGAMAX", pd.Series(0))).fillna(0).astype(float)
+            df_todos.get("SOGAMAX", df_todos.get("SOGAMAX", pd.Series(0))).fillna(0).astype(float)
         ).sum()
         with c_geral1:
             metric_v49("Valor Venda Estoque Geral", fmt_brl(valor_venda_geral), "Estoque × Venda Sogamax", "#63b3ed")
@@ -647,7 +647,7 @@ def main():
         if sel_status_todos: df_todos_filtered = df_todos_filtered[df_todos_filtered["STATUS DE ESTOQUE"].isin(sel_status_todos)]
         
         # Colunas esperadas para Todos os Produtos
-        cols_todos = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "ESTOQUE", "CURVA", "VB 90", "VALIDADE", "VENDA SOGAMAX ", "CUSTO SOGAMAX ", "STATUS DE ESTOQUE", "ESTOQUE PARADO", "ALERTA"]
+        cols_todos = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "ESTOQUE", "CURVA", "VB 90", "VALIDADE", "SOGAMAX", "CUSTO SOGAMAX ", "STATUS DE ESTOQUE", "ESTOQUE PARADO", "ALERTA"]
         
         # Verificar quais colunas existem
         cols_disponveis = [c for c in cols_todos if c in df_todos_filtered.columns]
@@ -655,7 +655,7 @@ def main():
         d_todos = df_todos_filtered[cols_disponveis].copy()
         
         # Formatação de Moeda
-        for c in ["VENDA SOGAMAX ", "VENDA SOGAMAX", "CUSTO SOGAMAX ", "CUSTO SOGAMAX"]:
+        for c in ["SOGAMAX", "SOGAMAX", "CUSTO SOGAMAX ", "CUSTO SOGAMAX"]:
             if c in d_todos.columns:
                 d_todos[c] = d_todos[c].apply(fmt_brl)
         
