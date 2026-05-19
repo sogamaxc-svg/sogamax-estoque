@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 # CONFIGURAÇÃO DA PÁGINA
 # ─────────────────────────────────────────────
 st.set_page_config(
-    page_title="SOGAMAX | Executive Intelligence",
+    page_title="SOGAMAX | Análise de Estoque",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
