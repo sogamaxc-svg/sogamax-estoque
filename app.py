@@ -231,29 +231,29 @@ def get_strategic_action_v6(row):
     # REGRA 4: MERCADO & PREÇO (CORRIGIDA)
     # ═══════════════════════════════════════════════════════════════════════════════
 
-    if not is_parado and not is_ruptura:
+    # Mesmo parado, analisar mercado também
+if media_concorrencia > 0:
 
-        # Sem concorrência = apenas monitorar
-        if media_concorrencia == 0 or media_concorrencia is None:
-            return ("Baixa prioridade", "MONITORAR PREÇO")
+    dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
 
-        # Diferença percentual REAL
-        dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
+    # Muito acima do mercado
+    if dif_pct >= 20:
+        return ("Alta prioridade", "REDUZIR PREÇO URGENTE")
 
-        # MUITO acima do mercado
-        if dif_pct >= 20:
-            return ("Alta prioridade", "REDUZIR PREÇO URGENTE")
+    # Acima do mercado
+    elif 10 <= dif_pct < 20:
+        return ("Média prioridade", "AJUSTAR PREÇO")
 
-        # Acima do mercado
-        if 5 <= dif_pct < 20:
-            return ("Média prioridade", "AJUSTAR PREÇO")
+    # Muito abaixo
+    elif dif_pct <= -15:
+        return ("Média prioridade", "REVISAR MARGEM")
 
-        # Muito abaixo do mercado
-        if dif_pct <= -15:
-            return ("Média prioridade", "REVISAR MARGEM")
-
-        # Preço saudável
+    # Competitivo
+    else:
         return ("Baixa prioridade", "PREÇO COMPETITIVO")
+
+# Sem benchmark
+return ("Baixa prioridade", "SEM BASE DE MERCADO")
     
     # ═══════════════════════════════════════════════════════════════════════════════
     # CASO PADRÃO (nenhuma regra se aplica)
