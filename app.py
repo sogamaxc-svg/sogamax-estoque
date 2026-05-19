@@ -231,28 +231,32 @@ def get_strategic_action_v6(row):
     # REGRA 4: MERCADO & PREÇO (CORRIGIDA)
     # ═══════════════════════════════════════════════════════════════════════════════
 
+        # ═══════════════════════════════════════════════════════════════════════════════
+    # REGRA 4: MERCADO & PREÇO (CORRIGIDA)
+    # ═══════════════════════════════════════════════════════════════════════════════
+
     if media_concorrencia > 0:
 
-    dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
+        dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
 
-    # Muito acima do mercado
-    if dif_pct >= 20:
-        return ("Alta prioridade", "REDUZIR PREÇO URGENTE")
+        # Muito acima do mercado
+        if dif_pct >= 20:
+            return ("Alta prioridade", "REDUZIR PREÇO URGENTE")
 
-    # Acima do mercado
-    elif 10 <= dif_pct < 20:
-        return ("Média prioridade", "AJUSTAR PREÇO")
+        # Acima do mercado
+        elif 10 <= dif_pct < 20:
+            return ("Média prioridade", "AJUSTAR PREÇO")
 
-    # Muito abaixo
-    elif dif_pct <= -15:
-        return ("Média prioridade", "REVISAR MARGEM")
+        # Muito abaixo
+        elif dif_pct <= -15:
+            return ("Média prioridade", "REVISAR MARGEM")
 
-    # Competitivo
-    else:
-        return ("Baixa prioridade", "PREÇO COMPETITIVO")
+        # Competitivo
+        else:
+            return ("Baixa prioridade", "PREÇO COMPETITIVO")
 
-# Sem benchmark
-return ("Baixa prioridade", "SEM BASE DE MERCADO")
+    # Sem benchmark
+    return ("Baixa prioridade", "SEM BASE DE MERCADO")
     
     # ═══════════════════════════════════════════════════════════════════════════════
     # CASO PADRÃO (nenhuma regra se aplica)
