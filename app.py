@@ -231,26 +231,33 @@ def get_strategic_action_v6(row):
     # REGRA 4: MERCADO & PREÇO
     # ═══════════════════════════════════════════════════════════════════════════════
     
-    # Somente se: IS_PARADO = False E IS_RUPTURA = False
-    if not is_parado and not is_ruptura:
-        # Se SEM BASE
-        if media_concorrencia == 0 or media_concorrencia is None:
-            return ("Média prioridade", "REDUZIR PREÇO")
-        
-        # Cálculo de diferença de preço
-        dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
-        
-        # Preço acima do mercado (+5%+) = Alta prioridade
-        if dif_pct >= 5:
-            return ("Alta prioridade", "REDUZIR PREÇO")
-        
-        # Preço competitivo (-5% a +5%) = Média prioridade
-        if -5 <= dif_pct < 5:
-            return ("Média prioridade", "REDUZIR PREÇO")
-        
-        # Preço abaixo do mercado (<-5%) = Baixa prioridade
-        if dif_pct < -5:
-            return ("Baixa prioridade", "REDUZIR PREÇO")
+   # ═══════════════════════════════════════════════════════════════════════════════
+# REGRA 4: MERCADO & PREÇO (CORRIGIDA)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+if not is_parado and not is_ruptura:
+
+    # Sem concorrência = apenas monitorar
+    if media_concorrencia == 0 or media_concorrencia is None:
+        return ("Baixa prioridade", "MONITORAR PREÇO")
+
+    # Diferença percentual REAL
+    dif_pct = ((venda_sogamax - media_concorrencia) / media_concorrencia) * 100
+
+    # MUITO acima do mercado
+    if dif_pct >= 20:
+        return ("Alta prioridade", "REDUZIR PREÇO URGENTE")
+
+    # Acima do mercado
+    if 5 <= dif_pct < 20:
+        return ("Média prioridade", "AJUSTAR PREÇO")
+
+    # Muito abaixo do mercado
+    if dif_pct <= -15:
+        return ("Média prioridade", "REVISAR MARGEM")
+
+    # Preço saudável
+    return ("Baixa prioridade", "PREÇO COMPETITIVO")
     
     # ═══════════════════════════════════════════════════════════════════════════════
     # CASO PADRÃO (nenhuma regra se aplica)
