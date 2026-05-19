@@ -106,7 +106,7 @@ def get_strategic_action_v6(row):
     
     estoque = float(row.get("ESTOQUE", 0) or 0)
     vb90 = float(row.get("VB 90", 0) or 0)
-    venda_sogamax = float(row.get("VENDA SOGAMAX", 0) or 0)
+    venda_sogamax = float(row.get("SOGAMAX", 0) or 0)
     media_concorrencia = float(row.get("MEDIA CONCORRENCIA", 0) or 0)
     valor_venda_estoque = float(row.get("VALOR VENDA ESTOQUE", 0) or 0)
     dias_ultima_vb = float(row.get("DIAS DA ULTIMA VB", 0) or 0)
@@ -341,7 +341,7 @@ def load_and_audit_v49():
                 df_final['VENDA SOGAMAX'] = 0
 
         # Cálculos Financeiros
-        df_final["VALOR VENDA ESTOQUE"] = df_final["ESTOQUE"] * df_final["VENDA SOGAMAX"]
+        df_final["VALOR VENDA ESTOQUE"] = df_final["ESTOQUE"] * df_final["SOGAMAX"]
         df_final["CUSTO ESTOQUE"] = df_final["ESTOQUE"] * df_final["CUSTO SOGAMAX"]
         
         # Média Concorrência
