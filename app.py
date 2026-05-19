@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore")
 # ─────────────────────────────────────────────
 st.set_page_config(
     page_title="SOGAMAX | Executive Intelligence",
-    page_icon="💎",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -433,7 +433,7 @@ def main():
     <div class="main-header">
         <div class="header-title">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h1>💎 SOGAMAX | Executive Intelligence v4.9</h1>
+                <h1> SOGAMAX | Executive Intelligence v4.9</h1>
                 <div class="audit-badge">CONFIABILIDADE OPERACIONAL • {datetime.now().strftime('%d/%m/%Y %H:%M')}</div>
             </div>
             <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">Contagem Oficial, Filtros Dinâmicos, Exportação Excel</p>
