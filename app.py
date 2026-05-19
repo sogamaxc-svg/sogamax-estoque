@@ -466,7 +466,7 @@ def main():
     if sel_marca: df_f = df_f[df_f["MARCA"].isin(sel_marca)]
 
     # Tabs - ADICIONADA ABA "TODOS OS PRODUTOS"
-    t = st.tabs(["📊 VISÃO EXECUTIVA", "🔴 PRODUTOS PARADOS (295)", "✅ PRODUTOS OK", "⚖️ MERCADO & PREÇO", "🚨 RUPTURA & REPOSIÇÃO", "📅 VALIDADE", "📋 TODOS OS PRODUTOS", "💡 INSIGHTS", "🔍 AUDITORIA"])
+    t = st.tabs(["📊 VISÃO EXECUTIVA", "🔴 PRODUTOS PARADOS (302)", "✅ PRODUTOS OK", "⚖️ MERCADO & PREÇO", "🚨 RUPTURA & REPOSIÇÃO", "📅 VALIDADE", "📋 TODOS OS PRODUTOS", "💡 INSIGHTS", "🔍 AUDITORIA"])
 
     # 1. VISÃO EXECUTIVA
     with t[0]:
