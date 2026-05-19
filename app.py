@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore")
 # ─────────────────────────────────────────────
 st.set_page_config(
     page_title="SOGAMAX | Análise de Estoque",
-    page_icon="📊",
+    page_icon=,
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -704,7 +704,7 @@ def main():
         st.markdown("### Auditoria Técnica v5.0")
         
         # BLOCO EXPLICATIVO - COMO SÃO CALCULADOS OS INDICADORES
-        st.markdown("#### 📊 Como são calculados os indicadores")
+        st.markdown("####  Como são calculados os indicadores")
         st.markdown("""
         <div class="insight-card" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6;">
         <b>Valor Total Estoque:</b> Soma de (Estoque × Preço de Venda Sogamax) de todos os produtos<br>
@@ -737,7 +737,7 @@ def main():
         
         st.divider()
         
-        st.markdown("#### 🎯 Legenda de Prioridades")
+        st.markdown("####  Legenda de Prioridades")
         st.markdown("""
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
         <div class="insight-card" style="background: rgba(239, 68, 68, 0.1); border-left-color: #ef4444;">
