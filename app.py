@@ -519,13 +519,13 @@ def main():
         # Alertas
         st.markdown(f"""
         <div class="no-giro-alert">
-            <b>📊 CONTAGEM OFICIAL:</b> Existem {audit['PARADOS_OFICIAL']} produtos classificados como parados na aba PRODUTOS PARADOS.
+            <b> CONTAGEM OFICIAL:</b> Existem {audit['PARADOS_OFICIAL']} produtos classificados como parados na aba PRODUTOS PARADOS.
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown(f"""
         <div class="price-alert">
-            <b>⚠️ COMPETITIVIDADE:</b> {audit['ACIMA_MERCADO_5PCT']} produtos acima do mercado (+5%). 
+            <b> COMPETITIVIDADE:</b> {audit['ACIMA_MERCADO_5PCT']} produtos acima do mercado (+5%). 
             Destes, {audit['ACIMA_MERCADO_20PCT']} FORA DO MERCADO (+20%).
         </div>
         """, unsafe_allow_html=True)
