@@ -295,7 +295,16 @@ def load_and_audit_v49():
         
         # Merge de informações financeiras
         # NOTA: PRODUTOS PARADOS usa 'SOGAMAX', TODOS OS PRODUTOS usa 'VENDA SOGAMAX'
-        cols_ref = ['ID', 'SOGAMAX', 'CUSTO SOGAMAX', 'SANTA CRUZ', 'PROFARMA', 'VB 90', 'DIAS DA ULTIMA VB']
+        cols_ref = [
+        'ID',
+        'SOGAMAX',
+        'CUSTO SOGAMAX',
+        'SANTA CRUZ',
+        'PROFARMA',
+        'VB 90',
+        'DIAS DA ULTIMA VB',
+        'VALIDADE'
+      ]
         df_ref_financeiro = df_parados_oficial[[c for c in cols_ref if c in df_parados_oficial.columns]].drop_duplicates(subset=['ID'])
         
         df_final = pd.merge(df_todos, df_ref_financeiro, on='ID', how='left', suffixes=('', '_ref'))
