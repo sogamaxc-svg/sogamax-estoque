@@ -723,10 +723,7 @@ with t[1]:
         file_name=f"SOGAMAX_PLANO_ACAO_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
-            data=excel_plano,
-            file_name=f"SOGAMAX_PLANO_ACAO_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+            
     # Abas com filtros e exportação
     with t[2]: 
         cols_parados = ["SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA R$", "DIFERENCA MERCADO %", "VALOR VENDA ESTOQUE"]
