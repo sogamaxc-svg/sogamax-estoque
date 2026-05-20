@@ -792,7 +792,7 @@ def main():
         ).reset_index()
 
         ranking_marcas = ranking_marcas.sort_values(
-            "Valor_Parado",
+            by="Valor_Parado",
             ascending=False
         )
 
@@ -810,39 +810,15 @@ def main():
 
         excel_ranking = export_to_excel(
             ranking_show,
-            sheet_name="Ranking Marcas"
+            sheet_name="Ranking_Marcas"
         )
 
         st.download_button(
-            label="📥 Baixar Ranking de Marcas",
+            "📥 Baixar Ranking de Marcas",
             data=excel_ranking,
-            file_name=f"SOGAMAX_RANKING_MARCAS_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+            file_name=f"RANKING_MARCAS_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-            label="📥 Baixar Ranking de Marcas",
-            data=excel_ranking,
-            file_name=f"SOGAMAX_RANKING_MARCAS_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
-        c_i1, c_i2 = st.columns(2)
-        with c_i1:
-            st.markdown(f"""
-            <div class="insight-card">
-                <b>Capital Imobilizado:</b> {fmt_brl(audit['VALOR_PARADO'])} estão parados em {audit['PARADOS_OFICIAL']} produtos (aba oficial).
-            </div>
-            <div class="insight-card">
-                <b>Risco de Ruptura:</b> {audit['RUPTURA']} itens estão com estoque zerado apesar de possuírem venda ativa.
-            </div>
-            """, unsafe_allow_html=True)
-        with c_i2:
-            st.markdown(f"""
-            <div class="insight-card">
-                <b>Validade Próxima:</b> {audit['VALIDADE_OFICIAL']} produtos requerem atenção especial por validade.
-            </div>
-            <div class="insight-card">
-                <b>Eficiência de Giro:</b> {audit['OK']} produtos garantem o fluxo de caixa atual.
-            </div>
-            """, unsafe_allow_html=True)
 
     with t[9]:
         st.markdown("### Auditoria Técnica v5.0")
