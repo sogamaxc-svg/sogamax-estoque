@@ -362,7 +362,7 @@ def load_and_audit_v49():
         df_final["IS_REPOSICAO"] = (df_final["ESTOQUE"] > 0) & (df_final["ESTOQUE"] < df_final["VB 90"]/3) & (df_final["VB 90"] > 0)
         df_final["IS_OK"] = (df_final["STATUS DE ESTOQUE"] == "OK") & (~df_final["IS_PARADO"])
 
-        # Classificação IA
+        # CLASSIFICAÇÃO ESTRATÉGICA
         def classify_v49(row):
             if row["IS_PARADO"]:
                 dias = row.get("DIAS DA ULTIMA VB", 0)
@@ -375,7 +375,7 @@ def load_and_audit_v49():
             if row["IS_OK"]: return "Saudável (OK)"
             return "Monitorar"
 
-        df_final["CLASSIFICAÇÃO IA"] = df_final.apply(classify_v49, axis=1)
+        df_final["CLASSIFICAÇÃO ESTRATÉGICA"] = df_final.apply(classify_v49, axis=1)
 
         # Aplicar Motor de Decisão Estratégica v4.9
         df_final[["PRIORIDADE", "AÇÃO RECOMENDADA"]] = df_final.apply(
@@ -397,6 +397,10 @@ def load_and_audit_v49():
             "ACIMA_MERCADO_5PCT": len(df_final[df_final["DIFERENCA MERCADO %"] > 0.05]),
             "ACIMA_MERCADO_20PCT": len(df_final[df_final["DIFERENCA MERCADO %"] > 0.20]),
             "SEM_BENCHMARK": len(df_final[df_final["MEDIA CONCORRENCIA"] == 0]),
+            "PCT_PARADOS": parados_count_oficial / len(df_todos),
+            "PCT_VALIDADE": validade_count_oficial / len(df_todos),
+            "PCT_RUPTURA": len(df_final[df_final["IS_RUPTURA"]]) / len(df_todos),
+            "PCT_ACIMA_MERCADO": len(df_final[df_final["DIFERENCA MERCADO %"] > 0.05]) / len(df_todos),
         }
 
         return (df_final, audit, df_todos), None
@@ -496,8 +500,18 @@ def main():
     if sel_marca: df_f = df_f[df_f["MARCA"].isin(sel_marca)]
 
     # Tabs - ADICIONADA ABA "TODOS OS PRODUTOS"
-    t = st.tabs([" VISÃO EXECUTIVA", " PRODUTOS PARADOS ", " PRODUTOS OK", " MERCADO & PREÇO", " RUPTURA & REPOSIÇÃO", " VALIDADE", " TODOS OS PRODUTOS", " INSIGHTS", " AUDITORIA"])
-
+t = st.tabs([
+    " VISÃO EXECUTIVA",
+    " PLANO DE AÇÃO",
+    " PRODUTOS PARADOS ",
+    " PRODUTOS OK",
+    " MERCADO & PREÇO",
+    " RUPTURA & REPOSIÇÃO",
+    " VALIDADE",
+    " TODOS OS PRODUTOS",
+    " INSIGHTS",
+    " AUDITORIA"
+])
     # 1. VISÃO EXECUTIVA
     with t[0]:
         c1, c2, c3, c4, c5 = st.columns(5)
@@ -562,7 +576,7 @@ def main():
         
         col_l, col_r = st.columns(2)
         with col_l:
-            fig = px.pie(df_f, names="CLASSIFICAÇÃO IA", title="Composição Estratégica do Estoque", hole=0.4)
+            fig = px.pie(df_f, names="CLASSIFICAÇÃO ESTRATÉGICA", title="Composição Estratégica do Estoque", hole=0.4)
             fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_color='white', margin=dict(t=40, b=0, l=0, r=0))
             st.plotly_chart(fig, use_container_width=True)
         with col_r:
@@ -585,7 +599,7 @@ def main():
         with col_f3:
             sel_prioridade = st.multiselect("Prioridade", sorted(df_table["PRIORIDADE"].dropna().unique().astype(str)), key=f"{tab_key}_prio")
         with col_f4:
-            sel_classif = st.multiselect("Classificação IA", sorted(df_table["CLASSIFICAÇÃO IA"].dropna().unique().astype(str)), key=f"{tab_key}_classif")
+            sel_classif = st.multiselect("CLASSIFICAÇÃO ESTRATÉGICA", sorted(df_table["CLASSIFICAÇÃO ESTRATÉGICA"].dropna().unique().astype(str)), key=f"{tab_key}_classif")
         with col_f5:
             sel_status = st.multiselect("Status", sorted(df_table["STATUS DE ESTOQUE"].dropna().unique().astype(str)), key=f"{tab_key}_status")
         
@@ -594,7 +608,7 @@ def main():
         if sel_marca_local: df_filtered = df_filtered[df_filtered["MARCA"].isin(sel_marca_local)]
         if sel_curva_local: df_filtered = df_filtered[df_filtered["CURVA"].isin(sel_curva_local)]
         if sel_prioridade: df_filtered = df_filtered[df_filtered["PRIORIDADE"].isin(sel_prioridade)]
-        if sel_classif: df_filtered = df_filtered[df_filtered["CLASSIFICAÇÃO IA"].isin(sel_classif)]
+        if sel_classif: df_filtered = df_filtered[df_filtered["CLASSIFICAÇÃO ESTRATÉGICA"].isin(sel_classif)]
         if sel_status: df_filtered = df_filtered[df_filtered["STATUS DE ESTOQUE"].isin(sel_status)]
         
         # Preparar dados para exibição
@@ -634,7 +648,65 @@ def main():
                 file_name=f"SOGAMAX_{tab_key}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+    with t[1]:
+    st.markdown("### Plano de Ação Estratégico")
+    st.caption("Produtos que exigem ação da gestão, compras ou comercial.")
 
+    plano = df_f[
+        df_f["PRIORIDADE"].isin(["Alta prioridade", "Média prioridade"])
+    ].copy()
+
+    ordem_prioridade = {
+        "Alta prioridade": 1,
+        "Média prioridade": 2,
+        "Baixa prioridade": 3
+    }
+
+    plano["ORDEM"] = plano["PRIORIDADE"].map(ordem_prioridade).fillna(9)
+    plano = plano.sort_values(["ORDEM", "VALOR VENDA ESTOQUE"], ascending=[True, False])
+
+    cols_plano = [
+        "ID",
+        "EAN",
+        "DESCRIÇÃO",
+        "MARCA",
+        "Grupo",
+        "CURVA",
+        "ESTOQUE",
+        "VB 90",
+        "DIAS DA ULTIMA VB",
+        "VALIDADE",
+        "VALOR VENDA ESTOQUE",
+        "DIFERENCA MERCADO %",
+        "CLASSIFICAÇÃO ESTRATÉGICA",
+        "PRIORIDADE",
+        "AÇÃO RECOMENDADA"
+    ]
+
+    cols_plano = [c for c in cols_plano if c in plano.columns]
+    plano_show = plano[cols_plano].copy()
+
+    if "VALOR VENDA ESTOQUE" in plano_show.columns:
+        plano_show["VALOR VENDA ESTOQUE"] = plano_show["VALOR VENDA ESTOQUE"].apply(fmt_brl)
+
+    if "DIFERENCA MERCADO %" in plano_show.columns:
+        plano_show["DIFERENCA MERCADO %"] = plano_show["DIFERENCA MERCADO %"].apply(fmt_pct)
+
+    if "VALIDADE" in plano_show.columns:
+        plano_show["VALIDADE"] = plano_show["VALIDADE"].apply(
+            lambda x: "SEM VALIDADE" if pd.isna(x) or str(x).strip() == "" else str(x)[:10]
+        )
+
+    st.dataframe(plano_show, hide_index=True, use_container_width=True)
+
+    excel_plano = export_to_excel(plano_show, sheet_name="Plano de Acao")
+
+    st.download_button(
+        label="📥 Baixar Plano de Ação",
+        data=excel_plano,
+        file_name=f"SOGAMAX_PLANO_ACAO_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
     # Abas com filtros e exportação
     with t[1]: 
         cols_parados = ["SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA R$", "DIFERENCA MERCADO %", "VALOR VENDA ESTOQUE"]
