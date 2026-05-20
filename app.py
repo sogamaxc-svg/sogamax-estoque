@@ -499,18 +499,19 @@ def main():
     if sel_curva: df_f = df_f[df_f["CURVA"].isin(sel_curva)]
     if sel_marca: df_f = df_f[df_f["MARCA"].isin(sel_marca)]
 
-    # Tabs - ADICIONADA ABA "TODOS OS PRODUTOS"
-t = st.tabs([
-    " VISÃO EXECUTIVA",
-    " PLANO DE AÇÃO",
-    " PRODUTOS PARADOS ",
-    " PRODUTOS OK",
-    " MERCADO & PREÇO",
-    " RUPTURA & REPOSIÇÃO",
-    " VALIDADE",
-    " TODOS OS PRODUTOS",
-    " INSIGHTS",
-    " AUDITORIA"
+       # Tabs - ADICIONADA ABA "TODOS OS PRODUTOS"
+    t = st.tabs([
+        " VISÃO EXECUTIVA",
+        " PLANO DE AÇÃO",
+        " PRODUTOS PARADOS ",
+        " PRODUTOS OK",
+        " MERCADO & PREÇO",
+        " RUPTURA & REPOSIÇÃO",
+        " VALIDADE",
+        " TODOS OS PRODUTOS",
+        " INSIGHTS",
+        " AUDITORIA"
+    ])
 ])
     # 1. VISÃO EXECUTIVA
     with t[0]:
@@ -649,12 +650,12 @@ t = st.tabs([
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
     with t[1]:
-    st.markdown("### Plano de Ação Estratégico")
-    st.caption("Produtos que exigem ação da gestão, compras ou comercial.")
+        st.markdown("### Plano de Ação Estratégico")
+        st.caption("Produtos que exigem ação da gestão, compras ou comercial.")
 
-    plano = df_f[
-        df_f["PRIORIDADE"].isin(["Alta prioridade", "Média prioridade"])
-    ].copy()
+        plano = df_f[
+            df_f["PRIORIDADE"].isin(["Alta prioridade", "Média prioridade"])
+        ].copy()
 
     ordem_prioridade = {
         "Alta prioridade": 1,
@@ -708,27 +709,27 @@ t = st.tabs([
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
     # Abas com filtros e exportação
-    with t[1]: 
+    with t[2]: 
         cols_parados = ["SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA R$", "DIFERENCA MERCADO %", "VALOR VENDA ESTOQUE"]
         show_table_with_filters(df_f[df_f["IS_PARADO"]], "Produtos Parados (Aba Oficial)", "parados", cols_parados)
         
-    with t[2]: 
+    with t[3]: 
         show_table_with_filters(df_f[df_f["IS_OK"]], "Produtos com Giro Saudável", "ok")
     
-    with t[3]: 
+    with t[4]: 
         cols_mercado = ["SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA MERCADO %"]
         df_acima = df_f[df_f["DIFERENCA MERCADO %"] > 0.05].sort_values("DIFERENCA MERCADO %", ascending=False)
         show_table_with_filters(df_acima, "Análise de Competitividade", "mercado", cols_mercado)
         
-    with t[4]: 
+    with t[5]: 
         show_table_with_filters(df_f[df_f["IS_RUPTURA"] | df_f["IS_REPOSICAO"]], "Gestão de Ruptura e Reposição", "ruptura")
     
-    with t[5]: 
+    with t[6]: 
         df_val = df_f[df_f["IS_VALIDADE"]].copy()
         show_table_with_filters(df_val, "Produtos com Validade Próxima (Aba Oficial)", "validade")
     
     # NOVA ABA: TODOS OS PRODUTOS - CONSULTA GERAL
-    with t[6]:
+    with t[7]:
         st.markdown(f"### Todos os Produtos - Consulta Geral ({len(df_todos)} itens)")
         
         # Filtros locais para Todos os Produtos
@@ -802,7 +803,7 @@ t = st.tabs([
             </div>
             """, unsafe_allow_html=True)
 
-    with t[8]:
+    with t[9]:
         st.markdown("### Auditoria Técnica v5.0")
         
         # BLOCO EXPLICATIVO - COMO SÃO CALCULADOS OS INDICADORES
