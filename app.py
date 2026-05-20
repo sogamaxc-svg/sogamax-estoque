@@ -447,6 +447,36 @@ def main():
         return
     
     df, audit, df_todos = data
+    # ─────────────────────────────────────────────
+# ACESSO SIMULADO POR CURVA
+# Teste para simular visão por comprador
+# ─────────────────────────────────────────────
+
+st.sidebar.markdown("### Acesso Simulado")
+
+perfil_acesso = st.sidebar.selectbox(
+    "Entrar como:",
+    [
+        "Gestão / Supervisão",
+        "Comprador - Curva A",
+        "Comprador - Curva B",
+        "Comprador - Curva C",
+        "Comprador - Curva D",
+    ]
+)
+
+if perfil_acesso == "Gestão / Supervisão":
+    curva_acesso = None
+else:
+    curva_acesso = perfil_acesso.replace("Comprador - Curva ", "")
+
+if curva_acesso:
+    df = df[df["CURVA"].astype(str).str.upper() == curva_acesso]
+    df_todos = df_todos[df_todos["CURVA"].astype(str).str.upper() == curva_acesso]
+
+    st.info(f"Visualização filtrada para produtos da Curva {curva_acesso}")
+else:
+    st.success("Visualização completa liberada para Gestão / Supervisão")
 
     # Sidebar
     with st.sidebar:
