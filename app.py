@@ -434,33 +434,40 @@ def export_multiple_sheets(sheets_dict):
 
 def main():
 
+    # LOGO CENTRALIZADA
     col1, col2, col3 = st.columns([1,2,1])
 
-    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        st.image(
+            "assets/logo-dashboard.png",
+            width=500
+        )
 
-with col2:
-    st.image(
-        "assets/logo-dashboard.png",
-        width=500
-    )
-
+    # HEADER PRINCIPAL
     st.markdown(f"""
     <div class="main-header">
         <div class="header-title">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h1> SOGAMAX | Análise Estratégica de Estoque</h1>
-                <div class="audit-badge">CONFIABILIDADE OPERACIONAL • {datetime.now().strftime('%d/%m/%Y %H:%M')}</div>
+                <h1>SOGAMAX | Análise Estratégica de Estoque</h1>
+
+                <div class="audit-badge">
+                    CONFIABILIDADE OPERACIONAL • {datetime.now().strftime('%d/%m/%Y %H:%M')}
+                </div>
             </div>
-            <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">Contagem Oficial, Filtros Dinâmicos, Exportação Excel</p>
+
+            <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
+                Contagem Oficial, Filtros Dinâmicos, Exportação Excel
+            </p>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     data, error = load_and_audit_v49()
+
     if error:
         st.error(error)
         return
-    
+
     df, audit, df_todos = data
     # ─────────────────────────────────────────────
     # ─────────────────────────────────────────────
