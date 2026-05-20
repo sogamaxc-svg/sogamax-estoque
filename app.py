@@ -445,22 +445,28 @@ def main():
 
     # HEADER PRINCIPAL
     st.markdown(f"""
-    <div class="main-header">
-        <div class="header-title">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h1>SOGAMAX | Análise Estratégica de Estoque</h1>
+<div class="main-header">
 
-                <div class="audit-badge">
-                    CONFIABILIDADE OPERACIONAL • {datetime.now().strftime('%d/%m/%Y %H:%M')}
-                </div>
+    <div class="header-title">
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+
+            <h1>SOGAMAX | Análise Estratégica de Estoque</h1>
+
+            <div class="audit-badge">
+                CONFIABILIDADE OPERACIONAL • {datetime.now().strftime('%d/%m/%Y %H:%M')}
             </div>
 
-            <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
-                Contagem Oficial, Filtros Dinâmicos, Exportação Excel
-            </p>
         </div>
+
+        <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
+            Contagem Oficial, Filtros Dinâmicos, Exportação Excel
+        </p>
+
     </div>
-    """, unsafe_allow_html=True)
+
+</div>
+""", unsafe_allow_html=True)
 
     data, error = load_and_audit_v49()
 
