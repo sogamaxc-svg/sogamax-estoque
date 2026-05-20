@@ -779,6 +779,34 @@ def main():
     
     with t[8]:
         st.markdown("### Insights Estratégicos")
+                st.divider()
+
+        st.markdown("### Ranking de Marcas com Maior Recorrência")
+
+        ranking_marcas = df_f.groupby("MARCA").agg(
+            Total_Produtos=("ID", "count"),
+            Produtos_Parados=("IS_PARADO", "sum"),
+            Validade_Proxima=("IS_VALIDADE", "sum"),
+            Ruptura=("IS_RUPTURA", "sum"),
+            Estoque_Baixo=("IS_REPOSICAO", "sum"),
+            Valor_Parado=("VALOR VENDA ESTOQUE", "sum")
+        ).reset_index()
+
+        ranking_marcas = ranking_marcas.sort_values("Valor_Parado", ascending=False)
+
+        ranking_show = ranking_marcas.copy()
+        ranking_show["Valor_Parado"] = ranking_show["Valor_Parado"].apply(fmt_brl)
+
+        st.dataframe(ranking_show, hide_index=True, use_container_width=True)
+
+        excel_ranking = export_to_excel(ranking_show, sheet_name="Ranking Marcas")
+
+        st.download_button(
+            label="📥 Baixar Ranking de Marcas",
+            data=excel_ranking,
+            file_name=f"SOGAMAX_RANKING_MARCAS_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
         c_i1, c_i2 = st.columns(2)
         with c_i1:
             st.markdown(f"""
