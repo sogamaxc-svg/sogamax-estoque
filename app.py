@@ -649,80 +649,60 @@ def main():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
       # PLANO DE AÇÃO
-with t[1]:
+    with t[1]:
+        st.markdown("### Plano de Ação Estratégico")
+        st.caption("Produtos que exigem ação da gestão, compras ou comercial.")
 
-    st.markdown("### Plano de Ação Estratégico")
-    st.caption("Produtos que exigem ação da gestão, compras ou comercial.")
+        plano = df_f[
+            df_f["PRIORIDADE"].isin(["Alta prioridade", "Média prioridade"])
+        ].copy()
 
-    plano = df_f[
-        df_f["PRIORIDADE"].isin(["Alta prioridade", "Média prioridade"])
-    ].copy()
+        ordem_prioridade = {
+            "Alta prioridade": 1,
+            "Média prioridade": 2,
+            "Baixa prioridade": 3
+        }
 
-    ordem_prioridade = {
-        "Alta prioridade": 1,
-        "Média prioridade": 2,
-        "Baixa prioridade": 3
-    }
+        plano["ORDEM"] = plano["PRIORIDADE"].map(ordem_prioridade).fillna(9)
 
-    plano["ORDEM"] = plano["PRIORIDADE"].map(ordem_prioridade).fillna(9)
-
-    plano = plano.sort_values(
-        ["ORDEM", "VALOR VENDA ESTOQUE"],
-        ascending=[True, False]
-    )
-
-    cols_plano = [
-        "ID",
-        "EAN",
-        "DESCRIÇÃO",
-        "MARCA",
-        "Grupo",
-        "CURVA",
-        "ESTOQUE",
-        "VB 90",
-        "DIAS DA ULTIMA VB",
-        "VALIDADE",
-        "VALOR VENDA ESTOQUE",
-        "DIFERENCA MERCADO %",
-        "CLASSIFICAÇÃO ESTRATÉGICA",
-        "PRIORIDADE",
-        "AÇÃO RECOMENDADA"
-    ]
-
-    cols_plano = [c for c in cols_plano if c in plano.columns]
-
-    plano_show = plano[cols_plano].copy()
-
-    if "VALOR VENDA ESTOQUE" in plano_show.columns:
-        plano_show["VALOR VENDA ESTOQUE"] = plano_show["VALOR VENDA ESTOQUE"].apply(fmt_brl)
-
-    if "DIFERENCA MERCADO %" in plano_show.columns:
-        plano_show["DIFERENCA MERCADO %"] = plano_show["DIFERENCA MERCADO %"].apply(fmt_pct)
-
-    if "VALIDADE" in plano_show.columns:
-        plano_show["VALIDADE"] = plano_show["VALIDADE"].apply(
-            lambda x: "SEM VALIDADE"
-            if pd.isna(x) or str(x).strip() == ""
-            else str(x)[:10]
+        plano = plano.sort_values(
+            ["ORDEM", "VALOR VENDA ESTOQUE"],
+            ascending=[True, False]
         )
 
-    st.dataframe(
-        plano_show,
-        hide_index=True,
-        use_container_width=True
-    )
+        cols_plano = [
+            "ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "CURVA",
+            "ESTOQUE", "VB 90", "DIAS DA ULTIMA VB", "VALIDADE",
+            "VALOR VENDA ESTOQUE", "DIFERENCA MERCADO %",
+            "CLASSIFICAÇÃO ESTRATÉGICA", "PRIORIDADE", "AÇÃO RECOMENDADA"
+        ]
 
-    excel_plano = export_to_excel(
-        plano_show,
-        sheet_name="Plano de Acao"
-    )
+        cols_plano = [c for c in cols_plano if c in plano.columns]
+        plano_show = plano[cols_plano].copy()
 
-    st.download_button(
-        label="📥 Baixar Plano de Ação",
-        data=excel_plano,
-        file_name=f"SOGAMAX_PLANO_ACAO_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
+        if "VALOR VENDA ESTOQUE" in plano_show.columns:
+            plano_show["VALOR VENDA ESTOQUE"] = plano_show["VALOR VENDA ESTOQUE"].apply(fmt_brl)
+
+        if "DIFERENCA MERCADO %" in plano_show.columns:
+            plano_show["DIFERENCA MERCADO %"] = plano_show["DIFERENCA MERCADO %"].apply(fmt_pct)
+
+        if "VALIDADE" in plano_show.columns:
+            plano_show["VALIDADE"] = plano_show["VALIDADE"].apply(
+                lambda x: "SEM VALIDADE"
+                if pd.isna(x) or str(x).strip() == ""
+                else str(x)[:10]
+            )
+
+        st.dataframe(plano_show, hide_index=True, use_container_width=True)
+
+        excel_plano = export_to_excel(plano_show, sheet_name="Plano de Acao")
+
+        st.download_button(
+            label="📥 Baixar Plano de Ação",
+            data=excel_plano,
+            file_name=f"SOGAMAX_PLANO_ACAO_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
             
     # Abas com filtros e exportação
     with t[2]: 
