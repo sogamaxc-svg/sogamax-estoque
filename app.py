@@ -777,8 +777,8 @@ def main():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
     
-    with t[8]:
-                st.divider()
+    with t[8]:        
+        st.divider()
 
         st.markdown("### Ranking de Marcas com Maior Recorrência")
 
@@ -814,6 +814,11 @@ def main():
         )
 
         st.download_button(
+            label="📥 Baixar Ranking de Marcas",
+            data=excel_ranking,
+            file_name=f"SOGAMAX_RANKING_MARCAS_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
             label="📥 Baixar Ranking de Marcas",
             data=excel_ranking,
             file_name=f"SOGAMAX_RANKING_MARCAS_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
