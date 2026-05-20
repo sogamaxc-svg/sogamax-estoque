@@ -648,50 +648,81 @@ def main():
                 file_name=f"SOGAMAX_{tab_key}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
-        with t[1]:
-        st.markdown("### Plano de Ação Estratégico")
-        st.caption("Produtos que exigem ação da gestão, compras ou comercial.")
+      # PLANO DE AÇÃO
+with t[1]:
 
-        plano = df_f[
-            df_f["PRIORIDADE"].isin(["Alta prioridade", "Média prioridade"])
-        ].copy()
+    st.markdown("### Plano de Ação Estratégico")
+    st.caption("Produtos que exigem ação da gestão, compras ou comercial.")
 
-        ordem_prioridade = {
-            "Alta prioridade": 1,
-            "Média prioridade": 2,
-            "Baixa prioridade": 3
-        }
+    plano = df_f[
+        df_f["PRIORIDADE"].isin(["Alta prioridade", "Média prioridade"])
+    ].copy()
 
-        plano["ORDEM"] = plano["PRIORIDADE"].map(ordem_prioridade).fillna(9)
-        plano = plano.sort_values(["ORDEM", "VALOR VENDA ESTOQUE"], ascending=[True, False])
+    ordem_prioridade = {
+        "Alta prioridade": 1,
+        "Média prioridade": 2,
+        "Baixa prioridade": 3
+    }
 
-        cols_plano = [
-            "ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "CURVA",
-            "ESTOQUE", "VB 90", "DIAS DA ULTIMA VB", "VALIDADE",
-            "VALOR VENDA ESTOQUE", "DIFERENCA MERCADO %",
-            "CLASSIFICAÇÃO ESTRATÉGICA", "PRIORIDADE", "AÇÃO RECOMENDADA"
-        ]
+    plano["ORDEM"] = plano["PRIORIDADE"].map(ordem_prioridade).fillna(9)
 
-        cols_plano = [c for c in cols_plano if c in plano.columns]
-        plano_show = plano[cols_plano].copy()
+    plano = plano.sort_values(
+        ["ORDEM", "VALOR VENDA ESTOQUE"],
+        ascending=[True, False]
+    )
 
-        if "VALOR VENDA ESTOQUE" in plano_show.columns:
-            plano_show["VALOR VENDA ESTOQUE"] = plano_show["VALOR VENDA ESTOQUE"].apply(fmt_brl)
+    cols_plano = [
+        "ID",
+        "EAN",
+        "DESCRIÇÃO",
+        "MARCA",
+        "Grupo",
+        "CURVA",
+        "ESTOQUE",
+        "VB 90",
+        "DIAS DA ULTIMA VB",
+        "VALIDADE",
+        "VALOR VENDA ESTOQUE",
+        "DIFERENCA MERCADO %",
+        "CLASSIFICAÇÃO ESTRATÉGICA",
+        "PRIORIDADE",
+        "AÇÃO RECOMENDADA"
+    ]
 
-        if "DIFERENCA MERCADO %" in plano_show.columns:
-            plano_show["DIFERENCA MERCADO %"] = plano_show["DIFERENCA MERCADO %"].apply(fmt_pct)
+    cols_plano = [c for c in cols_plano if c in plano.columns]
 
-        if "VALIDADE" in plano_show.columns:
-            plano_show["VALIDADE"] = plano_show["VALIDADE"].apply(
-                lambda x: "SEM VALIDADE" if pd.isna(x) or str(x).strip() == "" else str(x)[:10]
-            )
+    plano_show = plano[cols_plano].copy()
 
-        st.dataframe(plano_show, hide_index=True, use_container_width=True)
+    if "VALOR VENDA ESTOQUE" in plano_show.columns:
+        plano_show["VALOR VENDA ESTOQUE"] = plano_show["VALOR VENDA ESTOQUE"].apply(fmt_brl)
 
-        excel_plano = export_to_excel(plano_show, sheet_name="Plano de Acao")
+    if "DIFERENCA MERCADO %" in plano_show.columns:
+        plano_show["DIFERENCA MERCADO %"] = plano_show["DIFERENCA MERCADO %"].apply(fmt_pct)
 
-        st.download_button(
-            label="📥 Baixar Plano de Ação",
+    if "VALIDADE" in plano_show.columns:
+        plano_show["VALIDADE"] = plano_show["VALIDADE"].apply(
+            lambda x: "SEM VALIDADE"
+            if pd.isna(x) or str(x).strip() == ""
+            else str(x)[:10]
+        )
+
+    st.dataframe(
+        plano_show,
+        hide_index=True,
+        use_container_width=True
+    )
+
+    excel_plano = export_to_excel(
+        plano_show,
+        sheet_name="Plano de Acao"
+    )
+
+    st.download_button(
+        label="📥 Baixar Plano de Ação",
+        data=excel_plano,
+        file_name=f"SOGAMAX_PLANO_ACAO_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
             data=excel_plano,
             file_name=f"SOGAMAX_PLANO_ACAO_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -717,7 +748,7 @@ def main():
         show_table_with_filters(df_val, "Produtos com Validade Próxima (Aba Oficial)", "validade")
     
     # NOVA ABA: TODOS OS PRODUTOS - CONSULTA GERAL
-    with t[8]:
+    with t[7]:
         st.markdown(f"### Todos os Produtos - Consulta Geral ({len(df_todos)} itens)")
         
         # Filtros locais para Todos os Produtos
