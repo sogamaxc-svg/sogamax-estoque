@@ -37,7 +37,7 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
     background: linear-gradient(90deg, #1a2744 0%, #0d1530 100%);
     border-bottom: 1px solid rgba(99,179,237,0.3);
     padding: 25px 35px;
-    margin: -60px -50px 30px -50px;
+    margin: -30px -50px 30px -50px;
 }
 .header-title h1 { font-size: 1.8rem; font-weight: 800; margin: 0; color: #f0f4ff; letter-spacing: -0.02em; }
 .metric-card {
@@ -436,17 +436,13 @@ def main():
 
     col1, col2, col3 = st.columns([1,2,1])
 
-    st.markdown("""
-<div style="
-    background: linear-gradient(90deg, #1a2744 0%, #0d1530 100%);
-    padding: 20px;
-    border-radius: 12px;
-    text-align:center;
-    margin-bottom:20px;
-">
-    <img src="app/static/assets/logo-dashboard.png" width="450">
-</div>
-""", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1,2,1])
+
+with col2:
+    st.image(
+        "assets/logo-dashboard.png",
+        width=500
+    )
 
     st.markdown(f"""
     <div class="main-header">
