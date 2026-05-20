@@ -648,7 +648,7 @@ def main():
                 file_name=f"SOGAMAX_{tab_key}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
-      # PLANO DE AÇÃO
+    # PLANO DE AÇÃO
     with t[1]:
         st.markdown("### Plano de Ação Estratégico")
         st.caption("Produtos que exigem ação da gestão, compras ou comercial.")
@@ -777,7 +777,9 @@ def main():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
     
-    with t[8]:        
+    with t[8]:
+        st.markdown("### Insights Estratégicos")
+
         st.divider()
 
         st.markdown("### Ranking de Marcas com Maior Recorrência")
