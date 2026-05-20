@@ -777,13 +777,10 @@ def main():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
     
-    with t[8]:
-        st.markdown("### Insights Estratégicos")
-
-        st.divider()
+       with t[8]:
+        st.error("TESTE: estou dentro da aba INSIGHTS")
 
         st.markdown("### Ranking de Marcas com Maior Recorrência")
-
         ranking_marcas = df_f.groupby("MARCA").agg(
             Total_Produtos=("ID", "count"),
             Produtos_Parados=("IS_PARADO", "sum"),
