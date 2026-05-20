@@ -778,7 +778,6 @@ def main():
             )
     
     with t[8]:
-        st.markdown("### Insights Estratégicos")
                 st.divider()
 
         st.markdown("### Ranking de Marcas com Maior Recorrência")
@@ -792,14 +791,27 @@ def main():
             Valor_Parado=("VALOR VENDA ESTOQUE", "sum")
         ).reset_index()
 
-        ranking_marcas = ranking_marcas.sort_values("Valor_Parado", ascending=False)
+        ranking_marcas = ranking_marcas.sort_values(
+            "Valor_Parado",
+            ascending=False
+        )
 
         ranking_show = ranking_marcas.copy()
-        ranking_show["Valor_Parado"] = ranking_show["Valor_Parado"].apply(fmt_brl)
 
-        st.dataframe(ranking_show, hide_index=True, use_container_width=True)
+        ranking_show["Valor_Parado"] = ranking_show[
+            "Valor_Parado"
+        ].apply(fmt_brl)
 
-        excel_ranking = export_to_excel(ranking_show, sheet_name="Ranking Marcas")
+        st.dataframe(
+            ranking_show,
+            hide_index=True,
+            use_container_width=True
+        )
+
+        excel_ranking = export_to_excel(
+            ranking_show,
+            sheet_name="Ranking Marcas"
+        )
 
         st.download_button(
             label="📥 Baixar Ranking de Marcas",
