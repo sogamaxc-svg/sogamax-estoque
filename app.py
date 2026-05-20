@@ -777,7 +777,7 @@ def main():
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
     
-       with t[8]:
+           with t[8]:
         st.error("TESTE: estou dentro da aba INSIGHTS")
 
         st.markdown("### Ranking de Marcas com Maior Recorrência")
