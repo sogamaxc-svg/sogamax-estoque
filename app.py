@@ -433,6 +433,10 @@ def export_multiple_sheets(sheets_dict):
 # ─────────────────────────────────────────────
 
 def main():
+    st.image(
+    "assets/logo-dashboard.png",
+    width=420
+)
     st.markdown(f"""
     <div class="main-header">
         <div class="header-title">
