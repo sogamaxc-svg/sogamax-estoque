@@ -441,21 +441,17 @@ def main():
         st.image("assets/logo-dashboard.png", width=500)
 
     # HEADER PRINCIPAL
-    st.markdown(f"""
-<div class="main-header">
-<div class="header-title">
-<div style="display:flex; justify-content:space-between; align-items:center;">
-<h1 style="margin-bottom:6px;">
-    SOGAMAX <span style="color:#38bdf8;">|</span> Analise Estrategica de Estoque
-</h1>
-<div class="audit-badge">
-CONFIABILIDADE OPERACIONAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}
-</div>
-</div>
-<p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
-Contagem Oficial, Filtros Dinamicos, Exportacao Excel
-</p>
-</div>
+    st.markdown("""
+<div style='
+    text-align:center;
+    margin-top:-25px;
+    margin-bottom:30px;
+'>
+    <img 
+        src='assets/logo-dashboard.png'
+        width='500'
+        style='filter: drop-shadow(0 0 18px rgba(255,255,255,0.08));'
+    >
 </div>
 """, unsafe_allow_html=True)
     data, error = load_and_audit_v49()
