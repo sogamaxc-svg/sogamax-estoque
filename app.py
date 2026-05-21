@@ -434,31 +434,53 @@ def export_multiple_sheets(sheets_dict):
 
 def main():
 
-    # LOGO
-    col1, col2, col3 = st.columns([1,2,1])
+    # LOGO CENTRALIZADA
+    st.markdown(
+        """
+        <div style='
+            text-align:center;
+            margin-top:-40px;
+            margin-bottom:-30px;
+        '>
+        """,
+        unsafe_allow_html=True
+    )
 
-    with col2:
-        st.image("assets/logo-dashboard.png", width=500)
+    st.image(
+        "assets/logo-dashboard.png",
+        width=500
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
     # HEADER PRINCIPAL
-    # LOGO
-st.markdown(
-    """
-    <div style='
-        text-align:center;
-        margin-top:-30px;
-        margin-bottom:-10px;
-    '>
-    """,
-    unsafe_allow_html=True
-)
+    st.markdown(f"""
+    <div class="main-header">
 
-st.image(
-    "assets/logo-dashboard.png",
-    width=500
-)
+        <div class="header-title">
 
-st.markdown("</div>", unsafe_allow_html=True)
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+
+                <h1>
+                SOGAMAX <span style="color:#38bdf8;">|</span> Analise Estrategica de Estoque
+                </h1>
+
+                <div class="audit-badge">
+                    CONFIABILIDADE OPERACIONAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}
+                </div>
+
+            </div>
+
+            <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
+                Contagem Oficial, Filtros Dinamicos, Exportacao Excel
+            </p>
+
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+    # CARREGAR DADOS
     data, error = load_and_audit_v49()
 
     if error:
