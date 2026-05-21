@@ -434,25 +434,28 @@ def export_multiple_sheets(sheets_dict):
 
 def main():
 
-    # LOGO CENTRALIZADA
-    st.markdown("""
-<style>
-.logo-sogamax {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -65px;
-    margin-bottom: -15px;
-}
-.logo-sogamax img {
-    width: 500px;
-}
-</style>
+        # LOGO CENTRALIZADA
+    col1, col2, col3 = st.columns([1, 3, 1])
 
-<div class="logo-sogamax">
-    <img src="assets/logo-dashboard.png">
-</div>
-""", unsafe_allow_html=True)
+    with col2:
+        st.markdown(
+            """
+            <div style="
+                display:flex;
+                justify-content:center;
+                margin-top:-90px;
+                margin-bottom:-40px;
+            ">
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.image(
+            "assets/logo-dashboard.png",
+            width=520
+        )
+
+        st.markdown("</div>", unsafe_allow_html=True)
 
     # CARREGAR DADOS
     data, error = load_and_audit_v49()
