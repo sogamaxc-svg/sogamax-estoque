@@ -445,7 +445,9 @@ def main():
 <div class="main-header">
 <div class="header-title">
 <div style="display:flex; justify-content:space-between; align-items:center;">
-<h1>SOGAMAX | Analise Estrategica de Estoque</h1>
+<h1 style="margin-bottom:6px;">
+    SOGAMAX <span style="color:#38bdf8;">|</span> Analise Estrategica de Estoque
+</h1>
 <div class="audit-badge">
 CONFIABILIDADE OPERACIONAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}
 </div>
