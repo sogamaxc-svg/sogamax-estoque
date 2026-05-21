@@ -453,39 +453,21 @@ def main():
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+    def main():
+
     # HEADER PRINCIPAL
-st.markdown(f"""
+    st.markdown(f"""
 <div class="main-header">
-
-<div class="header-title">
-
-<div style="display:flex; justify-content:space-between; align-items:center;">
-
-<h1>
-SOGAMAX <span style="color:#38bdf8;">|</span> Analise Estrategica de Estoque
-</h1>
-
-<div class="audit-badge">
-CONFIABILIDADE OPERACIONAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}
-</div>
-
-</div>
-
-<p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
-Contagem Oficial, Filtros Dinamicos, Exportacao Excel
-</p>
-
-</div>
-
+...
 </div>
 """, unsafe_allow_html=True)
+
     # CARREGAR DADOS
     data, error = load_and_audit_v49()
 
     if error:
         st.error(error)
         return
-
     df, audit, df_todos = data
     # ─────────────────────────────────────────────
     # ─────────────────────────────────────────────
