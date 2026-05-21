@@ -443,10 +443,7 @@ def main():
             width=500
         )
 
-    # HEADER PRINCIPAL
-    st.markdown(f"""
-<div class="main-header">
-
+    
 # HEADER PRINCIPAL
 st.markdown(f"""
 <div class="main-header">
@@ -455,7 +452,7 @@ st.markdown(f"""
 
         <div style="display:flex; justify-content:space-between; align-items:center;">
 
-            <h1>SOGAMAX | Análise Estratégica de Estoque</h1>
+            <h1>SOGAMAX | Analise Estrategica de Estoque</h1>
 
             <div class="audit-badge">
                 CONFIABILIDADE OPERACIONAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}
@@ -464,7 +461,7 @@ st.markdown(f"""
         </div>
 
         <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
-            Contagem Oficial, Filtros Dinâmicos, Exportação Excel
+            Contagem Oficial, Filtros Dinamicos, Exportacao Excel
         </p>
 
     </div>
@@ -506,9 +503,9 @@ st.markdown(f"""
         df = df[df["CURVA"].astype(str).str.upper() == curva_acesso]
         df_todos = df_todos[df_todos["CURVA"].astype(str).str.upper() == curva_acesso]
 
-        st.info(f"Visualização filtrada para produtos da Curva {curva_acesso}")
+        st.info(f"Visualizacao filtrada para produtos da Curva {curva_acesso}")
     else:
-        st.success("Visualização completa liberada para Gestão / Supervisão")
+        st.success("Visualizacao completa liberada para Gestao / Supervisão")
 
     # Sidebar
     with st.sidebar:
@@ -530,11 +527,11 @@ st.markdown(f"""
        # Tabs - ADICIONADA ABA "TODOS OS PRODUTOS"
     t = st.tabs([
         " VISÃO EXECUTIVA",
-        " PLANO DE AÇÃO",
+        " PLANO DE ACAO",
         " PRODUTOS PARADOS ",
         " PRODUTOS OK",
-        " MERCADO & PREÇO",
-        " RUPTURA & REPOSIÇÃO",
+        " MERCADO & PRECO",
+        " RUPTURA & REPOSICAO",
         " VALIDADE",
         " TODOS OS PRODUTOS",
         " INSIGHTS",
@@ -604,7 +601,7 @@ st.markdown(f"""
         
         col_l, col_r = st.columns(2)
         with col_l:
-            fig = px.pie(df_f, names="CLASSIFICAÇÃO ESTRATÉGICA", title="Composição Estratégica do Estoque", hole=0.4)
+            fig = px.pie(df_f, names="CLASSIFICACAO ESTRATÉGICA", title="Composicao Estratégica do Estoque", hole=0.4)
             fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_color='white', margin=dict(t=40, b=0, l=0, r=0))
             st.plotly_chart(fig, use_container_width=True)
         with col_r:
