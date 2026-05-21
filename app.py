@@ -441,19 +441,24 @@ def main():
         st.image("assets/logo-dashboard.png", width=500)
 
     # HEADER PRINCIPAL
-    st.markdown("""
-<div style='
-    text-align:center;
-    margin-top:-25px;
-    margin-bottom:30px;
-'>
-    <img 
-        src='assets/logo-dashboard.png'
-        width='500'
-        style='filter: drop-shadow(0 0 18px rgba(255,255,255,0.08));'
-    >
-</div>
-""", unsafe_allow_html=True)
+    # LOGO
+st.markdown(
+    """
+    <div style='
+        text-align:center;
+        margin-top:-30px;
+        margin-bottom:-10px;
+    '>
+    """,
+    unsafe_allow_html=True
+)
+
+st.image(
+    "assets/logo-dashboard.png",
+    width=500
+)
+
+st.markdown("</div>", unsafe_allow_html=True)
     data, error = load_and_audit_v49()
 
     if error:
