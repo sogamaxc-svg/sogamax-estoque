@@ -447,6 +447,10 @@ def main():
     st.markdown(f"""
 <div class="main-header">
 
+# HEADER PRINCIPAL
+st.markdown(f"""
+<div class="main-header">
+
     <div class="header-title">
 
         <div style="display:flex; justify-content:space-between; align-items:center;">
