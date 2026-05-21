@@ -453,27 +453,6 @@ def main():
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-  def main():
-
-    # LOGO CENTRALIZADA
-    st.markdown(
-        """
-        <div style='
-            text-align:center;
-            margin-top:-40px;
-            margin-bottom:-30px;
-        '>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.image(
-        "assets/logo-dashboard.png",
-        width=500
-    )
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
     # HEADER PRINCIPAL
     st.markdown(f"""
 <div class="main-header">
