@@ -857,7 +857,7 @@ st.markdown(f"""
         st.markdown("####  Como são calculados os indicadores")
         st.markdown("""
         <div class="insight-card" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6;">
-        <b>Valor Total Estoque:</b> Soma de (Estoque × Preço de Venda Sogamax) de todos os produtos<br>
+        <b>Valor Total Estoque:</b> Soma de (Estoque x Preco de Venda Sogamax) de todos os produtos<br>
         <b>Custo Total Estoque:</b> Soma de (Estoque × Custo Sogamax) de todos os produtos<br>
         <b>Valor Parado:</b> Soma de (Estoque × Preço de Venda) apenas dos produtos parados (>90 dias sem venda)<br>
         <b>Margem Potencial:</b> Diferença entre Valor Total e Custo Total (lucro potencial do estoque)<br>
