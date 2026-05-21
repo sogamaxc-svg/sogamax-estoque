@@ -552,8 +552,8 @@ st.markdown(f"""
         st.markdown("<br>", unsafe_allow_html=True)
         
         c_f1, c_f2, c_f3, c_f4 = st.columns(4)
-        with c_f1: metric_v49("Valor Total Estoque", fmt_brl(audit['VALOR_TOTAL']), "Estoque × Preço")
-        with c_f2: metric_v49("Custo Total Estoque", fmt_brl(audit['CUSTO_TOTAL']), "Estoque × Custo")
+        with c_f1: metric_v49("Valor Total Estoque", fmt_brl(audit['VALOR_TOTAL']), "Estoque x Preço")
+        with c_f2: metric_v49("Custo Total Estoque", fmt_brl(audit['CUSTO_TOTAL']), "Estoque x Custo")
         with c_f3: metric_v49("Valor Parado (E*P)", fmt_brl(audit['VALOR_PARADO']), "Capital Imobilizado", "#fc8181")
         
         # Calcular margem potencial usando dados de TODOS OS PRODUTOS
@@ -577,14 +577,14 @@ st.markdown(f"""
             df_todos.get("VENDA SOGAMAX", df_todos.get("VENDA SOGAMAX", pd.Series(0))).fillna(0).astype(float)
         ).sum()
         with c_geral1:
-            metric_v49("Valor Venda Estoque Geral", fmt_brl(valor_venda_geral), "Estoque × Venda Sogamax", "#63b3ed")
+            metric_v49("Valor Venda Estoque Geral", fmt_brl(valor_venda_geral), "Estoque x Venda Sogamax", "#63b3ed")
         
         # Card 2: Custo estoque geral
         custo_geral = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
             df_todos.get("CUSTO SOGAMAX ", df_todos.get("CUSTO SOGAMAX", pd.Series(0))).fillna(0).astype(float)
         ).sum()
         with c_geral2:
-            metric_v49("Custo Estoque Geral", fmt_brl(custo_geral), "Estoque × Custo Sogamax", "#a78bfa")
+            metric_v49("Custo Estoque Geral", fmt_brl(custo_geral), "Estoque x Custo Sogamax", "#a78bfa")
 
         st.markdown("<br>", unsafe_allow_html=True)
         
@@ -858,10 +858,10 @@ st.markdown(f"""
         st.markdown("""
         <div class="insight-card" style="background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6;">
         <b>Valor Total Estoque:</b> Soma de (Estoque x Preco de Venda Sogamax) de todos os produtos<br>
-        <b>Custo Total Estoque:</b> Soma de (Estoque × Custo Sogamax) de todos os produtos<br>
-        <b>Valor Parado:</b> Soma de (Estoque × Preço de Venda) apenas dos produtos parados (>90 dias sem venda)<br>
+        <b>Custo Total Estoque:</b> Soma de (Estoque x Custo Sogamax) de todos os produtos<br>
+        <b>Valor Parado:</b> Soma de (Estoque x Preço de Venda) apenas dos produtos parados (>90 dias sem venda)<br>
         <b>Margem Potencial:</b> Diferença entre Valor Total e Custo Total (lucro potencial do estoque)<br>
-        <b>% Produtos Parados:</b> (Produtos parados / Total de produtos) × 100<br>
+        <b>% Produtos Parados:</b> (Produtos parados / Total de produtos) x 100<br>
         <b>Ruptura:</b> Produtos com estoque = 0 E com venda nos últimos 90 dias (VB90 > 0)<br>
         <b>Estoque Baixo:</b> Produtos com estoque baixo E com presença de venda (risco de ruptura)<br>
         <b>Produtos OK:</b> Produtos com giro saudável (venda recente E estoque adequado)<br>
