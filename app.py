@@ -434,39 +434,36 @@ def export_multiple_sheets(sheets_dict):
 
 def main():
 
-    # LOGO CENTRALIZADA
+    # LOGO
     col1, col2, col3 = st.columns([1,2,1])
 
     with col2:
-        st.image(
-            "assets/logo-dashboard.png",
-            width=500
-        )
+        st.image("assets/logo-dashboard.png", width=500)
 
     # HEADER PRINCIPAL
     st.markdown(f"""
-<div class="main-header">
+    <div class="main-header">
 
-    <div class="header-title">
+        <div class="header-title">
 
-        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
 
-            <h1>SOGAMAX | Analise Estrategica de Estoque</h1>
+                <h1>SOGAMAX | Analise Estrategica de Estoque</h1>
 
-            <div class="audit-badge">
-                CONFIABILIDADE OPERACIONAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}
+                <div class="audit-badge">
+                    CONFIABILIDADE OPERACIONAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}
+                </div>
+
             </div>
+
+            <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
+                Contagem Oficial, Filtros Dinamicos, Exportacao Excel
+            </p>
 
         </div>
 
-        <p style="color:#94a3b8; font-size:0.8rem; margin-top:5px;">
-            Contagem Oficial, Filtros Dinamicos, Exportacao Excel
-        </p>
-
     </div>
-
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
     data, error = load_and_audit_v49()
 
