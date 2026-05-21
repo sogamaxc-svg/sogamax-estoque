@@ -458,7 +458,7 @@ st.markdown(f"""
             <h1>SOGAMAX | Análise Estratégica de Estoque</h1>
 
             <div class="audit-badge">
-                CONFIABILIDADE OPERACIONAL • {datetime.now().strftime('%d/%m/%Y %H:%M')}
+                CONFIABILIDADE OPERACIONAL - {datetime.now().strftime('%d/%m/%Y %H:%M')}
             </div>
 
         </div>
