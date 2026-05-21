@@ -600,7 +600,7 @@ def main():
         
         col_l, col_r = st.columns(2)
         with col_l:
-            fig = px.pie(df_f, names="CLASSIFICACAO ESTRATÉGICA", title="Composicao Estratégica do Estoque", hole=0.4)
+            fig = px.pie(df_f, names="CLASSIFICAÇÃO ESTRATÉGICA", title="Composição Estratégica do Estoque", hole=0.4)
             fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_color='white', margin=dict(t=40, b=0, l=0, r=0))
             st.plotly_chart(fig, use_container_width=True)
         with col_r:
