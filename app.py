@@ -569,8 +569,6 @@ def main():
             df_todos.get("CUSTO SOGAMAX ", df_todos.get("CUSTO SOGAMAX", pd.Series(0))).fillna(0).astype(float)
         ).sum()
         margem_geral = valor_venda_geral_temp - custo_geral_temp
-        
-        with c_f4: metric_v49("Margem Potencial", fmt_brl(margem_geral), "Lucro em Estoque", "#68d391")
 
         st.markdown("<br>", unsafe_allow_html=True)
         
