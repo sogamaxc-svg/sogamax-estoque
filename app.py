@@ -535,19 +535,31 @@ def main():
     ])
     # 1. VISÃO EXECUTIVA
     with t[0]:
-        c1, c2, c3, c4, c5 = st.columns(5)
-        with c1: metric_v49("Total Produtos", f"{audit['TOTAL_TODOS']}", "Base Completa")
-        with c2: metric_v49("Produtos Parados", f"{audit['PARADOS_OFICIAL']}", "Aba Oficial", "#fc8181")
-        with c3: metric_v49("Em Ruptura", f"{audit['RUPTURA']}", "Estoque 0 + Venda", "#f6ad55")
-        with c4: metric_v49("Estoque Baixo", f"{audit['REPOSICAO']}", "Risco de Ruptura", "#f6e05e")
-        with c5: metric_v49("Produtos OK", f"{audit['OK']}", "Giro Saudável", "#68d391")
 
+        total_produtos_view = len(df_f)
+        produtos_parados_view = int(df_f["IS_PARADO"].sum())
+        ruptura_view = int(df_f["IS_RUPTURA"].sum())
+        reposicao_view = int(df_f["IS_REPOSICAO"].sum())
+        ok_view = int(df_f["IS_OK"].sum())
+
+        valor_total_view = df_f["VALOR VENDA ESTOQUE"].sum()
+        custo_total_view = df_f["CUSTO ESTOQUE"].sum()
+        valor_parado_view = df_f[df_f["IS_PARADO"]]["VALOR VENDA ESTOQUE"].sum()
+        margem_view = valor_total_view - custo_total_view
+        
+        c1, c2, c3, c4, c5 = st.columns(5)
+        with c1: metric_v49("Total Produtos", f"{total_produtos_view}", "Base filtrada")
+        with c2: metric_v49("Produtos Parados", f"{produtos_parados_view}", "Filtro atual", "#fc8181")
+        with c3: metric_v49("Em Ruptura", f"{ruptura_view}", "Estoque 0 + Venda", "#f6ad55")
+        with c4: metric_v49("Estoque Baixo", f"{reposicao_view}", "Risco de Ruptura", "#f6e05e")
+        with c5: metric_v49("Produtos OK", f"{ok_view}", "Giro Saudavel", "#68d391")
         st.markdown("<br>", unsafe_allow_html=True)
         
         c_f1, c_f2, c_f3, c_f4 = st.columns(4)
-        with c_f1: metric_v49("Valor Total Estoque", fmt_brl(audit['VALOR_TOTAL']), "Estoque x Preço")
-        with c_f2: metric_v49("Custo Total Estoque", fmt_brl(audit['CUSTO_TOTAL']), "Estoque x Custo")
-        with c_f3: metric_v49("Valor Parado (E*P)", fmt_brl(audit['VALOR_PARADO']), "Capital Imobilizado", "#fc8181")
+        with c_f1: metric_v49("Valor Total Estoque", fmt_brl(valor_total_view), "Estoque x Preco")
+        with c_f2: metric_v49("Custo Total Estoque", fmt_brl(custo_total_view), "Estoque x Custo")
+        with c_f3: metric_v49("Valor Parado", fmt_brl(valor_parado_view), "Capital Imobilizado", "#fc8181")
+        with c_f4: metric_v49("Margem Potencial", fmt_brl(margem_view), "Lucro em Estoque", "#68d391")
         
         # Calcular margem potencial usando dados de TODOS OS PRODUTOS
         valor_venda_geral_temp = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
