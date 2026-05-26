@@ -587,40 +587,72 @@ def main():
             metric_v49("Custo Estoque Geral", fmt_brl(custo_geral), "Estoque x Custo Sogamax", "#a78bfa")
 
         st.markdown("<br>", unsafe_allow_html=True)
-                # GRAFICO DE CURVAS POR COMPRADOR
-        st.markdown("### Distribuicao por Curva ABC")
+               # GRAFICO DE CURVAS POR COMPRADOR
+st.markdown("### Distribuicao por Curva ABC")
 
-        col_curva1, col_curva2 = st.columns(2)
+col_curva1, col_curva2 = st.columns(2)
 
-        with col_curva1:
+with col_curva1:
 
-            curva_geral = df_f.groupby("CURVA")["ID"].count().reset_index()
+    curva_geral = (
+        df_f.groupby("CURVA")["ID"]
+        .count()
+        .reset_index()
+        .rename(columns={"ID": "TOTAL_PRODUTOS"})
+    )
 
-            curva_geral = curva_geral.rename(
-                columns={"ID": "TOTAL_PRODUTOS"}
-            )
+    fig_curva_geral = px.bar(
+        curva_geral,
+        x="CURVA",
+        y="TOTAL_PRODUTOS",
+        text="TOTAL_PRODUTOS",
+        title="Quantidade Geral por Curva",
+        color="CURVA"
+    )
 
-            fig_curva_comprador = px.bar(
-                curva_comprador,
-                x="COMPRADOR",
-                y="TOTAL_PRODUTOS",
-                text="TOTAL_PRODUTOS",
-                title="Quantidade por Curva"
-                barmode="group"
-            )
+    fig_curva_geral.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font_color="white",
+        showlegend=False
+    )
 
-            fig_curva_geral.update_layout(
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                font_color="white",
-                showlegend=False
-            )
+    st.plotly_chart(
+        fig_curva_geral,
+        use_container_width=True
+    )
 
-            st.plotly_chart(
-                fig_curva_geral,
-                use_container_width=True
-            )
+with col_curva2:
 
+    if "COMPRADOR" in df_f.columns:
+
+        curva_comprador = (
+            df_f.groupby(["COMPRADOR", "CURVA"])["ID"]
+            .count()
+            .reset_index()
+            .rename(columns={"ID": "TOTAL_PRODUTOS"})
+        )
+
+        fig_curva_comprador = px.bar(
+            curva_comprador,
+            x="COMPRADOR",
+            y="TOTAL_PRODUTOS",
+            color="CURVA",
+            barmode="group",
+            text="TOTAL_PRODUTOS",
+            title="Curva ABC por Comprador"
+        )
+
+        fig_curva_comprador.update_layout(
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font_color="white"
+        )
+
+        st.plotly_chart(
+            fig_curva_comprador,
+            use_container_width=True
+        )
         with col_curva2:
 
             if "COMPRADOR" in df_f.columns:
