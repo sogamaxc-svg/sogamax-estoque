@@ -587,12 +587,12 @@ def main():
             metric_v49("Custo Estoque Geral", fmt_brl(custo_geral), "Estoque x Custo Sogamax", "#a78bfa")
 
         st.markdown("<br>", unsafe_allow_html=True)
-               # GRAFICO DE CURVAS POR COMPRADOR
-               st.markdown("### Distribuicao por Curva ABC")
+        # GRAFICO DE CURVAS POR COMPRADOR
+        st.markdown("### Distribuicao por Curva ABC")
 
-               col_curva1, col_curva2 = st.columns(2)
+        col_curva1, col_curva2 = st.columns(2)
 
-               with col_curva1:
+        with col_curva1:
 
     curva_geral = (
         df_f.groupby("CURVA")["ID"]
