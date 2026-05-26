@@ -588,11 +588,11 @@ def main():
 
         st.markdown("<br>", unsafe_allow_html=True)
                # GRAFICO DE CURVAS POR COMPRADOR
-st.markdown("### Distribuicao por Curva ABC")
+               st.markdown("### Distribuicao por Curva ABC")
 
-col_curva1, col_curva2 = st.columns(2)
+               col_curva1, col_curva2 = st.columns(2)
 
-with col_curva1:
+               with col_curva1:
 
     curva_geral = (
         df_f.groupby("CURVA")["ID"]
@@ -653,26 +653,7 @@ with col_curva2:
             fig_curva_comprador,
             use_container_width=True
         )
-        with col_curva2:
 
-            if "COMPRADOR" in df_f.columns:
-
-                curva_comprador = df_f.groupby(
-                    ["COMPRADOR", "CURVA"]
-                )["ID"].count().reset_index()
-
-                curva_comprador = curva_comprador.rename(
-                    columns={"ID": "TOTAL_PRODUTOS"}
-                )
-
-                fig_curva_comprador = px.bar(
-                    curva_comprador,
-                    x="CURVA",
-                    y="TOTAL_PRODUTOS",
-                    color="CURVA",
-                    text="TOTAL_PRODUTOS",
-                    title="Curva Atual"
-                )
 
                 fig_curva_comprador.update_layout(
                     paper_bgcolor="rgba(0,0,0,0)",
