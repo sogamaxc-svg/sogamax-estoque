@@ -10,6 +10,7 @@ import numpy as np
 import plotly.express as px
 import warnings
 import os
+SENHA_SISTEMA = "sogamax2026"
 from datetime import datetime
 from io import BytesIO
 
