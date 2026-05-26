@@ -600,12 +600,13 @@ def main():
                 columns={"ID": "TOTAL_PRODUTOS"}
             )
 
-            fig_curva_geral = px.bar(
-                curva_geral,
-                x="CURVA",
+            fig_curva_comprador = px.bar(
+                curva_comprador,
+                x="COMPRADOR",
                 y="TOTAL_PRODUTOS",
                 text="TOTAL_PRODUTOS",
                 title="Quantidade por Curva"
+                barmode="group"
             )
 
             fig_curva_geral.update_layout(
@@ -653,33 +654,7 @@ def main():
                     use_container_width=True
                 )
 
-        with col_curva2:
-            st.markdown("#### Por Comprador")
-
-            if "COMPRADOR" in df_f.columns:
-                curva_comprador = df_f.groupby(["COMPRADOR", "CURVA"])["ID"].count().reset_index()
-                curva_comprador = curva_comprador.rename(columns={"ID": "TOTAL_PRODUTOS"})
-
-                fig_curva_comprador = px.bar(
-                    curva_comprador,
-                    x="COMPRADOR",
-                    y="TOTAL_PRODUTOS",
-                    color="CURVA",
-                    text="TOTAL_PRODUTOS",
-                    title="Curva ABC por Comprador",
-                    barmode="group"
-                )
-
-                fig_curva_comprador.update_layout(
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    plot_bgcolor="rgba(0,0,0,0)",
-                    font_color="white",
-                    xaxis_tickangle=-35
-                )
-
-                st.plotly_chart(fig_curva_comprador, use_container_width=True)
-            else:
-                st.warning("Coluna COMPRADOR nao encontrada na base.")
+       
         # Alertas
         
         col_l, col_r = st.columns(2)
