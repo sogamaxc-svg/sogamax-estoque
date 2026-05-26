@@ -464,36 +464,29 @@ def main():
         st.error(error)
         return
     df, audit, df_todos = data
-    # ─────────────────────────────────────────────
-    # ─────────────────────────────────────────────
-    # ACESSO SIMULADO POR CURVA
-    # ─────────────────────────────────────────────
+    # ACESSO POR COMPRADOR
+    st.markdown("### Acesso ao Sistema")
 
-    st.sidebar.markdown("### Acesso Simulado")
-
-    perfil_acesso = st.sidebar.selectbox(
-        "Entrar como:",
-        [
-            "Gestão / Supervisão",
-            "Comprador - Curva A",
-            "Comprador - Curva B",
-            "Comprador - Curva C",
-            "Comprador - Curva D",
-        ]
+    tipo_acesso = st.selectbox(
+        "Selecione seu tipo de acesso:",
+        ["Gestao / Supervisao", "Comprador"]
     )
 
-    if perfil_acesso == "Gestão / Supervisão":
-        curva_acesso = None
-    else:
-        curva_acesso = perfil_acesso.replace("Comprador - Curva ", "")
+    if tipo_acesso == "Comprador":
+        compradores = sorted(df["COMPRADOR"].dropna().astype(str).unique())
 
-    if curva_acesso:
-        df = df[df["CURVA"].astype(str).str.upper() == curva_acesso]
-        df_todos = df_todos[df_todos["CURVA"].astype(str).str.upper() == curva_acesso]
+        comprador_selecionado = st.selectbox(
+            "Selecione seu nome:",
+            compradores
+        )
 
-        st.info(f"Visualizacao filtrada para produtos da Curva {curva_acesso}")
+        df = df[df["COMPRADOR"].astype(str) == comprador_selecionado]
+        df_todos = df_todos[df_todos["COMPRADOR"].astype(str) == comprador_selecionado]
+
+        st.info(f"Visualizacao filtrada para o comprador: {comprador_selecionado}")
+
     else:
-        st.success("Visualizacao completa liberada para Gestao / Supervisão")
+        st.success("Visualizacao completa liberada para Gestao / Supervisao")
 
     # Sidebar
     with st.sidebar:
@@ -625,11 +618,11 @@ def main():
         if sel_status: df_filtered = df_filtered[df_filtered["STATUS DE ESTOQUE"].isin(sel_status)]
         
         # Preparar dados para exibição
-        cols_base = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "CURVA", "ESTOQUE", "VB 90", "DIAS DA ULTIMA VB", "VENDA SOGAMAX", "CUSTO SOGAMAX"]
+        cols_base = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "COMPRADOR", "CURVA", "ESTOQUE", "VB 90", "DIAS DA ULTIMA VB", "VENDA SOGAMAX", "CUSTO SOGAMAX"]
         cols_final = cols_base + cols_extra + ["VALIDADE", "PRIORIDADE", "AÇÃO RECOMENDADA"]
         
         # Preparar dados para exibição
-        cols_base = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "CURVA", "ESTOQUE", "VB 90", "DIAS DA ULTIMA VB", "VENDA SOGAMAX", "CUSTO SOGAMAX"]
+        cols_base = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "COMPRADOR", "CURVA", "ESTOQUE", "VB 90", "DIAS DA ULTIMA VB", "VENDA SOGAMAX", "CUSTO SOGAMAX"]        
         cols_final = cols_base + cols_extra + ["VALIDADE", "PRIORIDADE", "AÇÃO RECOMENDADA"]
 
         # Manter apenas colunas existentes
@@ -761,8 +754,7 @@ def main():
         if sel_status_todos: df_todos_filtered = df_todos_filtered[df_todos_filtered["STATUS DE ESTOQUE"].isin(sel_status_todos)]
         
         # Colunas esperadas para Todos os Produtos
-        cols_todos = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "ESTOQUE", "CURVA", "VB 90", "VALIDADE", "VENDA SOGAMAX", "CUSTO SOGAMAX ", "STATUS DE ESTOQUE", "ESTOQUE PARADO", "ALERTA"]
-        
+        cols_todos = ["ID", "EAN", "DESCRIÇÃO", "MARCA", "Grupo", "COMPRADOR", "ESTOQUE", "CURVA", "VB 90", "VALIDADE", "VENDA SOGAMAX", "CUSTO SOGAMAX ", "STATUS DE ESTOQUE", "ESTOQUE PARADO", "ALERTA"]        
         # Verificar quais colunas existem
         cols_disponveis = [c for c in cols_todos if c in df_todos_filtered.columns]
         
