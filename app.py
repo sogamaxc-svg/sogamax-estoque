@@ -593,26 +593,65 @@ def main():
         col_curva1, col_curva2 = st.columns(2)
 
         with col_curva1:
-            st.markdown("#### Geral por Curva")
 
             curva_geral = df_f.groupby("CURVA")["ID"].count().reset_index()
-            curva_geral = curva_geral.rename(columns={"ID": "TOTAL_PRODUTOS"})
+
+            curva_geral = curva_geral.rename(
+                columns={"ID": "TOTAL_PRODUTOS"}
+            )
 
             fig_curva_geral = px.bar(
                 curva_geral,
                 x="CURVA",
                 y="TOTAL_PRODUTOS",
                 text="TOTAL_PRODUTOS",
-                title="Quantidade de Produtos por Curva"
+                title="Quantidade por Curva"
             )
 
             fig_curva_geral.update_layout(
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
-                font_color="white"
+                font_color="white",
+                showlegend=False
             )
 
-            st.plotly_chart(fig_curva_geral, use_container_width=True)
+            st.plotly_chart(
+                fig_curva_geral,
+                use_container_width=True
+            )
+
+        with col_curva2:
+
+            if "COMPRADOR" in df_f.columns:
+
+                curva_comprador = df_f.groupby(
+                    ["COMPRADOR", "CURVA"]
+                )["ID"].count().reset_index()
+
+                curva_comprador = curva_comprador.rename(
+                    columns={"ID": "TOTAL_PRODUTOS"}
+                )
+
+                fig_curva_comprador = px.bar(
+                    curva_comprador,
+                    x="CURVA",
+                    y="TOTAL_PRODUTOS",
+                    color="CURVA",
+                    text="TOTAL_PRODUTOS",
+                    title="Curva Atual"
+                )
+
+                fig_curva_comprador.update_layout(
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    font_color="white",
+                    showlegend=False
+                )
+
+                st.plotly_chart(
+                    fig_curva_comprador,
+                    use_container_width=True
+                )
 
         with col_curva2:
             st.markdown("#### Por Comprador")
@@ -642,18 +681,6 @@ def main():
             else:
                 st.warning("Coluna COMPRADOR nao encontrada na base.")
         # Alertas
-        st.markdown(f"""
-        <div class="no-giro-alert">
-            <b> CONTAGEM OFICIAL:</b> Existem {audit['PARADOS_OFICIAL']} produtos classificados como parados na aba PRODUTOS PARADOS.
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown(f"""
-        <div class="price-alert">
-            <b> COMPETITIVIDADE:</b> {audit['ACIMA_MERCADO_5PCT']} produtos acima do mercado (+5%). 
-            Destes, {audit['ACIMA_MERCADO_20PCT']} FORA DO MERCADO (+20%).
-        </div>
-        """, unsafe_allow_html=True)
         
         col_l, col_r = st.columns(2)
         with col_l:
