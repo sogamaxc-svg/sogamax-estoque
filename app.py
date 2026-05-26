@@ -352,9 +352,24 @@ def load_and_audit_v49():
             return np.mean(vals) if vals else 0
         df_final["MEDIA CONCORRENCIA"] = df_final.apply(calc_media, axis=1)
         df_final["DIFERENCA R$"] = df_final["VENDA SOGAMAX"] - df_final["MEDIA CONCORRENCIA"]
-        df_final["DIFERENCA MERCADO %"] = np.where(df_final["MEDIA CONCORRENCIA"] > 0, 
-                                                (df_final["VENDA SOGAMAX"] - df_final["MEDIA CONCORRENCIA"]) / df_final["MEDIA CONCORRENCIA"], 0)
 
+        df_final["DIFERENCA MERCADO %"] = np.where(
+            df_final["MEDIA CONCORRENCIA"] > 0,
+            (df_final["VENDA SOGAMAX"] - df_final["MEDIA CONCORRENCIA"]) / df_final["MEDIA CONCORRENCIA"],
+            0
+        )
+
+        df_final["ALERTA_PRECO_CONCORRENCIA"] = np.where(
+            df_final["DIFERENCA MERCADO %"].abs() > 1,
+            "REVISAR BASE / PRECO MUITO DISTANTE",
+            "OK"
+        )
+
+        df_final["DIFERENCA MERCADO %"] = np.where(
+            df_final["DIFERENCA MERCADO %"].abs() > 1,
+            0,
+            df_final["DIFERENCA MERCADO %"]
+        )
         # Flags de Status (OFICIAL v4.9)
         df_final["IS_PARADO"] = df_final['ID'].isin(parados_ids)
         df_final["IS_VALIDADE"] = df_final['ID'].isin(validade_ids)
@@ -719,7 +734,7 @@ def main():
         show_table_with_filters(df_f[df_f["IS_OK"]], "Produtos com Giro Saudável", "ok")
     
     with t[4]: 
-        cols_mercado = ["SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA MERCADO %"]
+        cols_mercado = ["SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA MERCADO %", "ALERTA_PRECO_CONCORRENCIA"]
         df_acima = df_f[df_f["DIFERENCA MERCADO %"] > 0.05].sort_values("DIFERENCA MERCADO %", ascending=False)
         show_table_with_filters(df_acima, "Análise de Competitividade", "mercado", cols_mercado)
         
