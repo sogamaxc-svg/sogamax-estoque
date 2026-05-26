@@ -448,6 +448,22 @@ def export_multiple_sheets(sheets_dict):
 # ─────────────────────────────────────────────
 
 def main():
+        # LOGIN SIMPLES
+    if "logado" not in st.session_state:
+        st.session_state.logado = False
+
+    if not st.session_state.logado:
+        st.markdown("## Acesso restrito")
+        senha = st.text_input("Digite a senha do sistema:", type="password")
+
+        if st.button("Entrar"):
+            if senha == SENHA_SISTEMA:
+                st.session_state.logado = True
+                st.rerun()
+            else:
+                st.error("Senha incorreta")
+
+        return
 
     # LOGO CENTRALIZADA
     st.markdown(
