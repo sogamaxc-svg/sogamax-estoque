@@ -31,6 +31,62 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 st.markdown("""
 <style>
+# CSS OCULTAR STREAMLIT / GITHUB
+st.markdown("""
+<style>
+
+/* MENU SUPERIOR */
+#MainMenu {
+    visibility: hidden;
+}
+
+/* HEADER */
+header {
+    visibility: hidden;
+}
+
+/* FOOTER */
+footer {
+    visibility: hidden;
+}
+
+/* BOTÃO FORK */
+button[kind="header"] {
+    display: none !important;
+}
+
+/* LINKS GITHUB */
+a[href*="github"] {
+    display: none !important;
+}
+
+/* BADGE STREAMLIT */
+.viewerBadge_container__1QSob {
+    display: none !important;
+}
+
+/* BOTÃO STREAMLIT */
+.stAppDeployButton {
+    display: none !important;
+}
+
+/* TOOLBAR */
+[data-testid="stToolbar"] {
+    display: none !important;
+}
+
+/* OLHINHO */
+[data-testid="stStatusWidget"] {
+    display: none !important;
+}
+
+/* DECORAÇÃO */
+[data-testid="stDecoration"] {
+    display: none !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 .stApp { background: #0a0f1e; color: #e2e8f0; }
