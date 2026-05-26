@@ -27,62 +27,82 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────
-# CSS PREMIUM EXECUTIVO (MANTIDO)
 # ─────────────────────────────────────────────
-st.markdown("""
-<style>
-# CSS OCULTAR STREAMLIT / GITHUB
+# CSS PREMIUM EXECUTIVO
+# ─────────────────────────────────────────────
+
 st.markdown("""
 <style>
 
-/* MENU SUPERIOR */
+/* ESCONDER MENU STREAMLIT */
 #MainMenu {
     visibility: hidden;
 }
 
-/* HEADER */
+/* ESCONDER HEADER */
 header {
     visibility: hidden;
 }
 
-/* FOOTER */
+/* ESCONDER FOOTER */
 footer {
     visibility: hidden;
 }
 
-/* BOTÃO FORK */
-button[kind="header"] {
-    display: none !important;
-}
-
-/* LINKS GITHUB */
-a[href*="github"] {
-    display: none !important;
-}
-
-/* BADGE STREAMLIT */
-.viewerBadge_container__1QSob {
-    display: none !important;
-}
-
-/* BOTÃO STREAMLIT */
-.stAppDeployButton {
-    display: none !important;
-}
-
-/* TOOLBAR */
+/* ESCONDER TOOLBAR SUPERIOR */
 [data-testid="stToolbar"] {
     display: none !important;
 }
 
-/* OLHINHO */
+/* ESCONDER BOTÃO DEPLOY */
+.stAppDeployButton {
+    display: none !important;
+}
+
+/* ESCONDER BADGE STREAMLIT */
+.viewerBadge_container__1QSob {
+    display: none !important;
+}
+
+/* ESCONDER ÍCONE GITHUB */
+a[href*="github"] {
+    display: none !important;
+}
+
+/* ESCONDER BOTÃO FORK */
+button[kind="header"] {
+    display: none !important;
+}
+
+/* ESCONDER CANTO SUPERIOR */
+[data-testid="stDecoration"] {
+    display: none !important;
+}
+
+/* ESCONDER STATUS */
 [data-testid="stStatusWidget"] {
     display: none !important;
 }
 
-/* DECORAÇÃO */
-[data-testid="stDecoration"] {
+/* ESCONDER BOTÃO FLUTUANTE STREAMLIT */
+[data-testid="stFloatingActionButton"] {
     display: none !important;
+}
+
+/* ESCONDER "HOSTED WITH STREAMLIT" */
+iframe {
+    display: none !important;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+.stApp {
+    background: #0a0f1e;
+    color: #e2e8f0;
 }
 
 </style>
