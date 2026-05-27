@@ -719,30 +719,30 @@ def main():
         # GRAFICO DE CURVAS POR COMPRADOR
         st.markdown("### Distribuicao por Curva ABC")
 
-curva_view = (
-    df_f.groupby("CURVA")["ID"]
-    .count()
-    .reset_index()
-    .rename(columns={"ID": "TOTAL_PRODUTOS"})
-)
+        curva_view = (
+            df_f.groupby("CURVA")["ID"]
+            .count()
+            .reset_index()
+            .rename(columns={"ID": "TOTAL_PRODUTOS"})
+        )
 
-fig_curva = px.bar(
-    curva_view,
-    x="CURVA",
-    y="TOTAL_PRODUTOS",
-    text="TOTAL_PRODUTOS",
-    title="Quantidade por Curva",
-    color="CURVA"
-)
+        fig_curva = px.bar(
+            curva_view,
+            x="CURVA",
+            y="TOTAL_PRODUTOS",
+            text="TOTAL_PRODUTOS",
+            title="Quantidade por Curva",
+            color="CURVA"
+        )
 
-fig_curva.update_layout(
-    paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(0,0,0,0)",
-    font_color="white",
-    showlegend=False
-)
+        fig_curva.update_layout(
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font_color="white",
+            showlegend=False
+        )
 
-st.plotly_chart(fig_curva, use_container_width=True)
+        st.plotly_chart(fig_curva, use_container_width=True)
         # Alertas
         
         col_l, col_r = st.columns(2)
