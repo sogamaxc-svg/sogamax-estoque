@@ -107,38 +107,6 @@ html, body, [class*="css"] {
 
 </style>
 """, unsafe_allow_html=True)
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-.stApp { background: #0a0f1e; color: #e2e8f0; }
-.main-header {
-    background: linear-gradient(90deg, #1a2744 0%, #0d1530 100%);
-    border-bottom: 1px solid rgba(99,179,237,0.3);
-    padding: 25px 35px;
-    margin: -30px -50px 30px -50px;
-}
-.header-title h1 { font-size: 1.8rem; font-weight: 800; margin: 0; color: #f0f4ff; letter-spacing: -0.02em; }
-.metric-card {
-    background: #161f3a;
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    height: 100%;
-}
-.metric-label { color: #94a3b8; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-.metric-value { color: #ffffff; font-size: 1.4rem; font-weight: 800; line-height: 1.1; }
-.metric-sub { color: #64748b; font-size: 0.6rem; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px; }
-.stTabs [data-baseweb="tab"] { background-color: #161f3a !important; color: #94a3b8 !important; padding: 12px 20px !important; font-weight: 700 !important; font-size: 0.75rem !important; }
-.stTabs [aria-selected="true"] { background-color: #1e3a8a !important; color: #ffffff !important; border: 1px solid rgba(99,179,237,0.3) !important; border-bottom: none !important; }
-.insight-card { background: rgba(30, 58, 138, 0.3); border-left: 4px solid #3b82f6; padding: 15px; border-radius: 4px; margin-bottom: 10px; }
-.audit-badge { background: #1e293b; color: #38bdf8; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; border: 1px solid #38bdf8; }
-.priority-high { color: #ef4444; font-weight: 700; }
-.priority-medium { color: #f59e0b; font-weight: 700; }
-.priority-low { color: #10b981; font-weight: 700; }
-.price-alert { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 10px; border-radius: 4px; margin-bottom: 8px; }
-.no-giro-alert { background: rgba(239, 68, 68, 0.15); border-left: 4px solid #dc2626; padding: 12px; border-radius: 4px; margin-bottom: 10px; }
-</style>
-""", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
 # FORMATAÇÃO MONETÁRIA E PERCENTUAL BR
