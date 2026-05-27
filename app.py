@@ -34,63 +34,27 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* ESCONDER MENU STREAMLIT */
 #MainMenu {
     visibility: hidden;
 }
 
-/* ESCONDER HEADER */
 header {
     visibility: hidden;
 }
 
-/* ESCONDER FOOTER */
 footer {
     visibility: hidden;
 }
 
-/* ESCONDER TOOLBAR SUPERIOR */
 [data-testid="stToolbar"] {
     display: none !important;
 }
 
-/* ESCONDER BOTÃO DEPLOY */
-.stAppDeployButton {
-    display: none !important;
-}
-
-/* ESCONDER BADGE STREAMLIT */
-.viewerBadge_container__1QSob {
-    display: none !important;
-}
-
-/* ESCONDER ÍCONE GITHUB */
-a[href*="github"] {
-    display: none !important;
-}
-
-/* ESCONDER BOTÃO FORK */
-button[kind="header"] {
-    display: none !important;
-}
-
-/* ESCONDER CANTO SUPERIOR */
 [data-testid="stDecoration"] {
     display: none !important;
 }
 
-/* ESCONDER STATUS */
 [data-testid="stStatusWidget"] {
-    display: none !important;
-}
-
-/* ESCONDER BOTÃO FLUTUANTE STREAMLIT */
-[data-testid="stFloatingActionButton"] {
-    display: none !important;
-}
-
-/* ESCONDER "HOSTED WITH STREAMLIT" */
-iframe {
     display: none !important;
 }
 
@@ -103,6 +67,110 @@ html, body, [class*="css"] {
 .stApp {
     background: #0a0f1e;
     color: #e2e8f0;
+}
+
+/* CARDS */
+
+.metric-card {
+    background: #161f3a;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.metric-label {
+    color: #94a3b8;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+}
+
+.metric-value {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.metric-sub {
+    color: #64748b;
+    font-size: 0.7rem;
+    margin-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 8px;
+}
+
+/* TABS */
+
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background-color: #161f3a !important;
+    color: #94a3b8 !important;
+    border-radius: 8px 8px 0px 0px;
+    padding: 12px 18px !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+}
+
+.stTabs [aria-selected="true"] {
+    background-color: #1e3a8a !important;
+    color: #ffffff !important;
+    border-bottom: 2px solid #ef4444 !important;
+}
+
+/* ALERTAS */
+
+.insight-card {
+    background: rgba(30, 58, 138, 0.30);
+    border-left: 4px solid #3b82f6;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.no-giro-alert {
+    background: rgba(239, 68, 68, 0.15);
+    border-left: 4px solid #dc2626;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* SELECTBOX */
+
+.stSelectbox > div > div {
+    background-color: #161f3a !important;
+    color: white !important;
+    border-radius: 10px !important;
+}
+
+/* TÍTULOS */
+
+h1, h2, h3 {
+    color: #f8fafc !important;
+    font-weight: 800 !important;
+}
+
+/* SCROLL */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0f1e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e3a8a;
+    border-radius: 10px;
 }
 
 </style>
