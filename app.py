@@ -582,27 +582,26 @@ def main():
                 st.error("Senha incorreta")
 
         return
+    # LOGO CENTRALIZADA
+    st.markdown(
+        """
+        <div style="
+            display:flex;
+            justify-content:center;
+            width:100%;
+            margin-top:-70px;
+            margin-bottom:-30px;
+        ">
+        """,
+        unsafe_allow_html=True
+    )
 
-# LOGO CENTRALIZADA
-st.markdown(
-    """
-    <div style="
-        display:flex;
-        justify-content:center;
-        width:100%;
-        margin-top:-70px;
-        margin-bottom:-30px;
-    ">
-    """,
-    unsafe_allow_html=True
-)
+    st.image(
+        "assets/logo-dashboard.png",
+        width=520
+    )
 
-st.image(
-    "assets/logo-dashboard.png",
-    width=520
-)
-
-st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
     # CARREGAR DADOS
     data, error = load_and_audit_v49()
 
