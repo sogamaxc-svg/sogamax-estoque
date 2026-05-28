@@ -38,12 +38,17 @@ st.markdown("""
     visibility: hidden;
 }
 
+[data-testid="stToolbar"] {
+    display: none !important;
+}
+
 header {
     visibility: hidden;
 }
 
 footer {
     visibility: hidden;
+}
 }
 
 [data-testid="stToolbar"] {
