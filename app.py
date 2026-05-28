@@ -583,7 +583,7 @@ def main():
 
         return
 
-    # LOGO CENTRALIZADA
+# LOGO CENTRALIZADA
 st.markdown(
     """
     <div style="
