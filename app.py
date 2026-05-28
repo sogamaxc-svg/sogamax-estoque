@@ -603,9 +603,6 @@ st.image(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
-
-
-    st.markdown("</div>", unsafe_allow_html=True)
     # CARREGAR DADOS
     data, error = load_and_audit_v49()
 
