@@ -640,20 +640,21 @@ def main():
 
        # Tabs - ADICIONADA ABA "TODOS OS PRODUTOS"
     t = st.tabs([
-        " VISÃO EXECUTIVA",
-        " PLANO DE ACAO",
-        " PRODUTOS PARADOS ",
-        " PRODUTOS OK",
-        " MERCADO & PRECO",
-        " RUPTURA & REPOSICAO",
-        " VALIDADE",
-        " TODOS OS PRODUTOS",
-        " INSIGHTS",
-        " AUDITORIA"
-    ])
+    " VISÃO EXECUTIVA",
+    " ALERTAS",
+    " PLANO DE ACAO",
+    " PRODUTOS PARADOS ",
+    " PRODUTOS OK",
+    " MERCADO & PRECO",
+    " RUPTURA & REPOSICAO",
+    " VALIDADE",
+    " TODOS OS PRODUTOS",
+    " INSIGHTS",
+    " AUDITORIA"
+])
     # 1. VISÃO EXECUTIVA
     with t[0]:
-
+    
         total_produtos_view = len(df_f)
         produtos_parados_view = int(df_f["IS_PARADO"].sum())
         ruptura_view = int(df_f["IS_RUPTURA"].sum())
