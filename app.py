@@ -394,7 +394,7 @@ def load_and_audit_v49():
     
     try:
         st.write("CAMINHO:", DATA_PATH)
-        st.write("EXISTE?", os.path.exists(DATA_PATH))
+        st.write("TAMANHO DO ARQUIVO:", os.path.getsize(DATA_PATH))
         xl = pd.ExcelFile(DATA_PATH, engine="openpyxl")
         
         def clean_df(df):
