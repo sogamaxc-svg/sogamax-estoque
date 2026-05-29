@@ -683,43 +683,43 @@ def main():
                    # RANKING DE COMPRADORES
         if tipo_acesso == "Gestao / Supervisao":
 
-        st.markdown("### Ranking de Compradores")
+            st.markdown("### Ranking de Compradores")
 
-        ranking_compradores = df_f.groupby("COMPRADOR").agg(
-            Produtos_Parados=("IS_PARADO", "sum"),
-            Rupturas=("IS_RUPTURA", "sum"),
-            Estoque_Baixo=("IS_REPOSICAO", "sum")
-        ).reset_index()
+            ranking_compradores = df_f.groupby("COMPRADOR").agg(
+                Produtos_Parados=("IS_PARADO", "sum"),
+                Rupturas=("IS_RUPTURA", "sum"),
+                Estoque_Baixo=("IS_REPOSICAO", "sum")
+            ).reset_index()
 
-        valor_parado_por_comprador = (
-            df_f[df_f["IS_PARADO"]]
-            .groupby("COMPRADOR")["VALOR VENDA ESTOQUE"]
-            .sum()
-            .reset_index()
-            .rename(columns={"VALOR VENDA ESTOQUE": "Valor_Parado"})
-        )
+            valor_parado_por_comprador = (
+                df_f[df_f["IS_PARADO"]]
+                .groupby("COMPRADOR")["VALOR VENDA ESTOQUE"]
+                .sum()
+                .reset_index()
+                .rename(columns={"VALOR VENDA ESTOQUE": "Valor_Parado"})
+            )
 
-        ranking_compradores = ranking_compradores.merge(
-            valor_parado_por_comprador,
-            on="COMPRADOR",
-            how="left"
-        )
+            ranking_compradores = ranking_compradores.merge(
+                valor_parado_por_comprador,
+                on="COMPRADOR",
+                how="left"
+            )
 
-        ranking_compradores["Valor_Parado"] = ranking_compradores["Valor_Parado"].fillna(0)
+            ranking_compradores["Valor_Parado"] = ranking_compradores["Valor_Parado"].fillna(0)
 
-        ranking_compradores = ranking_compradores.sort_values(
-            by="Valor_Parado",
-            ascending=False
-        )
+            ranking_compradores = ranking_compradores.sort_values(
+                by="Valor_Parado",
+                ascending=False
+            )
 
-        ranking_show = ranking_compradores.copy()
-        ranking_show["Valor_Parado"] = ranking_show["Valor_Parado"].apply(fmt_brl)
+            ranking_show = ranking_compradores.copy()
+            ranking_show["Valor_Parado"] = ranking_show["Valor_Parado"].apply(fmt_brl)
 
-        st.dataframe(
-            ranking_show,
-            hide_index=True,
-            use_container_width=True
-        )
+            st.dataframe(
+                ranking_show,
+                hide_index=True,
+                use_container_width=True
+            )
         # Calcular margem potencial usando dados de TODOS OS PRODUTOS
         valor_venda_geral_temp = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
             df_todos.get("VENDA SOGAMAX", df_todos.get("VENDA SOGAMAX", pd.Series(0))).fillna(0).astype(float)
