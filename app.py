@@ -13,11 +13,15 @@ import os
 from datetime import datetime
 from io import BytesIO
 EMAIL_COMPRADORES = {
-    "YURI TOSO": "yuri@sogamax.com.br",
-    "JOICI": "joici@sogamax.com.br",
+    "YURI TOSO": "yuritoso@sogamax.com.br",
     "GELIANA FERREIRA": "geliana@sogamax.com.br",
-    "JULLIA BORGES": "jullia@sogamax.com.br",
+    "JULLIA BORGES": "julliaborges@sogamax.com.br",
+    "THAMIRIS": "thamiris@sogamax.com.br",
+    "THAYS ALVES": "thaysalves@sogamax.com.br",
+    "MIKELLY TAMY": "mikely@sogamax.com.br",
 }
+
+EMAIL_TESTE = "estagiocompras@sogamax.com.br"
 warnings.filterwarnings("ignore")
 
 # ─────────────────────────────────────────────
