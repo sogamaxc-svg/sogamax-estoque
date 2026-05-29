@@ -10,6 +10,9 @@ import numpy as np
 import plotly.express as px
 import warnings
 import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 from io import BytesIO
 EMAIL_COMPRADORES = {
@@ -23,7 +26,21 @@ EMAIL_COMPRADORES = {
 
 EMAIL_TESTE = "estagiocompras@sogamax.com.br"
 warnings.filterwarnings("ignore")
+def enviar_email_outlook(destinatario, assunto, corpo):
+    remetente = st.secrets["EMAIL_REMETENTE"]
+    senha = st.secrets["EMAIL_SENHA_APP"]
 
+    msg = MIMEMultipart()
+    msg["From"] = remetente
+    msg["To"] = destinatario
+    msg["Subject"] = assunto
+
+    msg.attach(MIMEText(corpo, "plain", "utf-8"))
+
+    with smtplib.SMTP("smtp.office365.com", 587) as servidor:
+        servidor.starttls()
+        servidor.login(remetente, senha)
+        servidor.send_message(msg)
 # ─────────────────────────────────────────────
 # CONFIGURAÇÃO DA PÁGINA
 # ─────────────────────────────────────────────
@@ -1037,6 +1054,16 @@ Equipe de Inteligência de Estoque
         )
 
         st.text_area(
+                    if st.button("📧 Enviar teste para meu e-mail"):
+            try:
+                enviar_email_outlook(
+                    EMAIL_TESTE,
+                    assunto,
+                    corpo_email
+                )
+                st.success(f"E-mail de teste enviado para {EMAIL_TESTE}")
+            except Exception as e:
+                st.error(f"Erro ao enviar e-mail: {e}")
             "Corpo do E-mail",
             corpo_email,
             height=350
