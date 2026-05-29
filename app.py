@@ -393,13 +393,7 @@ def load_and_audit_v49():
         return None, "Arquivo não encontrado."
     
     try:
-    with open(DATA_PATH, "rb") as f:
-        assinatura = f.read(4)
-
-    if not assinatura.startswith(b"PK"):
-        return None, "O arquivo encontrado não parece ser um .xlsx válido. Reenvie a planilha no GitHub."
-
-    xl = pd.ExcelFile(DATA_PATH, engine="openpyxl")
+       xl = pd.ExcelFile(DATA_PATH, engine="openpyxl")
         
         def clean_df(df):
             df.columns = [str(c).strip() for c in df.columns]
