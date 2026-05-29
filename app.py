@@ -24,7 +24,7 @@ EMAIL_COMPRADORES = {
     "MIKELLY TAMY": "mikely@sogamax.com.br",
 }
 
-EMAIL_TESTE = "estagiocompras@sogamax.com.br"
+EMAIL_TESTE = "robertojuniorp86@gmail.com"
 warnings.filterwarnings("ignore")
 def enviar_email_outlook(destinatario, assunto, corpo):
     remetente = st.secrets["EMAIL_REMETENTE"]
@@ -37,7 +37,7 @@ def enviar_email_outlook(destinatario, assunto, corpo):
 
     msg.attach(MIMEText(corpo, "plain", "utf-8"))
 
-    with smtplib.SMTP("smtp.office365.com", 587) as servidor:
+    with smtplib.SMTP("smtp.gmail.com", 587) as servidor:
         servidor.starttls()
         servidor.login(remetente, senha)
         servidor.send_message(msg)
