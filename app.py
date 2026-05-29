@@ -1047,38 +1047,73 @@ Equipe de Inteligência de Estoque
             disabled=True
         )
 
-st.text_input(
-    "Assunto",
-    assunto,
-    disabled=True
-)
+        st.text_input(
+            "Destinatário",
+            destinatario,
+            disabled=True
+        )
 
-st.text_area(
-    "Corpo do E-mail",
-    corpo_email,
-    height=350
-)
-
-if st.button("📧 Enviar teste para meu e-mail"):
-    try:
-        enviar_email_outlook(
-            EMAIL_TESTE,
+        st.text_input(
+            "Assunto",
             assunto,
-            corpo_email
+            disabled=True
         )
 
-        st.success(
-            f"E-mail de teste enviado para {EMAIL_TESTE}"
-        )
-
-    except Exception as e:
-        st.error(
-            f"Erro ao enviar e-mail: {e}"
-        )
+        st.text_area(
             "Corpo do E-mail",
             corpo_email,
             height=350
         )
+
+        col_email1, col_email2 = st.columns(2)
+
+        with col_email1:
+
+            if st.button(
+                "📧 Enviar teste para meu e-mail",
+                use_container_width=True
+            ):
+                try:
+
+                    enviar_email_outlook(
+                        EMAIL_TESTE,
+                        assunto,
+                        corpo_email
+                    )
+
+                    st.success(
+                        f"E-mail enviado para {EMAIL_TESTE}"
+                    )
+
+                except Exception as e:
+
+                    st.error(
+                        f"Erro ao enviar e-mail: {e}"
+                    )
+
+        with col_email2:
+
+            if st.button(
+                "📨 Enviar para comprador",
+                use_container_width=True
+            ):
+                try:
+
+                    enviar_email_outlook(
+                        destinatario,
+                        assunto,
+                        corpo_email
+                    )
+
+                    st.success(
+                        f"E-mail enviado para {destinatario}"
+                    )
+
+                except Exception as e:
+
+                    st.error(
+                        f"Erro ao enviar e-mail: {e}"
+                    )
     # Abas com filtros e exportação
     with t[2]: 
         cols_parados = ["SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA R$", "DIFERENCA MERCADO %", "VALOR VENDA ESTOQUE"]
