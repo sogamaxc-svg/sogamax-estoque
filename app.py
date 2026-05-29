@@ -680,31 +680,31 @@ def main():
         with c_f2: metric_v49("Custo Total Estoque", fmt_brl(custo_total_view), "Estoque x Custo")
         with c_f3: metric_v49("Valor Parado", fmt_brl(valor_parado_view), "Capital Imobilizado", "#fc8181")
         with c_f4: metric_v49("Margem Potencial", fmt_brl(margem_view), "Lucro em Estoque", "#68d391")
-    # RANKING DE COMPRADORES
+        # RANKING DE COMPRADORES
 
-st.markdown("### Ranking de Compradores")
+        st.markdown("### Ranking de Compradores")
 
-ranking_compradores = df_f.groupby("COMPRADOR").agg(
-Produtos_Parados=("IS_PARADO", "sum"),
-Rupturas=("IS_RUPTURA", "sum"),
-Estoque_Baixo=("IS_REPOSICAO", "sum"),
-Valor_Parado=("VALOR VENDA ESTOQUE", "sum")
-).reset_index()
+        ranking_compradores = df_f.groupby("COMPRADOR").agg(
+            Produtos_Parados=("IS_PARADO", "sum"),
+            Rupturas=("IS_RUPTURA", "sum"),
+            Estoque_Baixo=("IS_REPOSICAO", "sum"),
+            Valor_Parado=("VALOR VENDA ESTOQUE", "sum")
+        ).reset_index()
 
-ranking_compradores = ranking_compradores.sort_values(
-by="Valor_Parado",
-ascending=False
-)
+        ranking_compradores = ranking_compradores.sort_values(
+            by="Valor_Parado",
+            ascending=False
+        )
 
-ranking_show = ranking_compradores.copy()
+        ranking_show = ranking_compradores.copy()
 
-ranking_show["Valor_Parado"] = ranking_show["Valor_Parado"].apply(fmt_brl)
+        ranking_show["Valor_Parado"] = ranking_show["Valor_Parado"].apply(fmt_brl)
 
-st.dataframe(
-ranking_show,
-hide_index=True,
-use_container_width=True
-)
+        st.dataframe(
+            ranking_show,
+            hide_index=True,
+            use_container_width=True
+        )
         # Calcular margem potencial usando dados de TODOS OS PRODUTOS
         valor_venda_geral_temp = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
             df_todos.get("VENDA SOGAMAX", df_todos.get("VENDA SOGAMAX", pd.Series(0))).fillna(0).astype(float)
