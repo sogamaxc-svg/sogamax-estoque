@@ -10,7 +10,6 @@ import numpy as np
 import plotly.express as px
 import warnings
 import os
-SENHA_SISTEMA = "sogamax2026"
 from datetime import datetime
 from io import BytesIO
 
@@ -575,7 +574,7 @@ def main():
         senha = st.text_input("Digite a senha do sistema:", type="password")
 
         if st.button("Entrar"):
-            if senha == SENHA_SISTEMA:
+            if senha == st.secrets["SENHA_SISTEMA"]:
                 st.session_state.logado = True
                 st.rerun()
             else:
