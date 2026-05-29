@@ -720,31 +720,7 @@ def main():
                 hide_index=True,
                 use_container_width=True
             )
-            # NÍVEL DE SERVIÇO
 
-        nivel_servico = (
-            (len(df_f) - ruptura_view)
-            / len(df_f)
-        ) * 100 if len(df_f) > 0 else 0
-
-        if nivel_servico >= 95:
-            cor_ns = "#22c55e"
-            status_ns = "Excelente"
-        elif nivel_servico >= 90:
-            cor_ns = "#f59e0b"
-            status_ns = "Atenção"
-        else:
-            cor_ns = "#ef4444"
-            status_ns = "Crítico"
-
-        st.markdown("### 🎯 Nível de Serviço")
-
-        metric_v49(
-            "Nível de Serviço",
-            f"{nivel_servico:.2f}%",
-            f"Meta: 95% | Status: {status_ns}",
-            cor_ns
-        )
         # GRAFICO DE CURVAS POR COMPRADOR
         st.markdown("### Distribuicao por Curva ABC")
 
