@@ -853,11 +853,108 @@ def main():
             (df_f["IS_REPOSICAO"])
         ]
 
+        ruptura_alerta = int(df_f["IS_RUPTURA"].sum())
+        reposicao_alerta = int(df_f["IS_REPOSICAO"].sum())
+        parados_alerta = int(df_f["IS_PARADO"].sum())
+
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+            metric_v49(
+                "Rupturas",
+                ruptura_alerta,
+                "Necessitam reposição",
+                "#f87171"
+            )
+
+        with c2:
+            metric_v49(
+                "Estoque Baixo",
+                reposicao_alerta,
+                "Risco de ruptura",
+                "#facc15"
+            )
+
+        with c3:
+            metric_v49(
+                "Produtos Parados",
+                parados_alerta,
+                "Sem giro",
+                "#fb7185"
+            )
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        st.markdown("### 🔥 Top 10 Alertas Mais Críticos")
+
+        top_alertas = alertas.copy()
+
+        top_alertas["SCORE_ALERTA"] = 0
+
+        top_alertas.loc[
+            top_alertas["IS_RUPTURA"],
+            "SCORE_ALERTA"
+        ] += 100
+
+        top_alertas.loc[
+            top_alertas["IS_REPOSICAO"],
+            "SCORE_ALERTA"
+        ] += 70
+
+        top_alertas.loc[
+            top_alertas["IS_PARADO"],
+            "SCORE_ALERTA"
+        ] += 50
+
+        top_alertas.loc[
+            top_alertas["CURVA"].astype(str).str.upper().isin(["AA", "A"]),
+            "SCORE_ALERTA"
+        ] += 40
+
+        top_alertas.loc[
+            top_alertas["CURVA"].astype(str).str.upper().isin(["B"]),
+            "SCORE_ALERTA"
+        ] += 25
+
+        top_alertas["SCORE_ALERTA"] += (
+            top_alertas["VALOR VENDA ESTOQUE"].fillna(0) / 10000
+        )
+
+        top_alertas = top_alertas.sort_values(
+            by="SCORE_ALERTA",
+            ascending=False
+        )
+
+        colunas_top = [
+            "ID",
+            "DESCRIÇÃO",
+            "MARCA",
+            "COMPRADOR",
+            "CURVA",
+            "ESTOQUE",
+            "VB 90",
+            "PRIORIDADE",
+            "AÇÃO RECOMENDADA"
+        ]
+
+        colunas_top = [
+            c for c in colunas_top
+            if c in top_alertas.columns
+        ]
+
+        st.dataframe(
+            top_alertas[colunas_top].head(10),
+            use_container_width=True,
+            hide_index=True
+        )
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
         show_table_with_filters(
             alertas,
-           "Produtos que exigem atenção",
-           "alertas",
-          ["VALOR VENDA ESTOQUE", "DIFERENCA MERCADO %"]
+            "Produtos que exigem atenção",
+            "alertas",
+            ["VALOR VENDA ESTOQUE", "DIFERENCA MERCADO %"]
         )
     # Abas com filtros e exportação
     with t[2]: 
