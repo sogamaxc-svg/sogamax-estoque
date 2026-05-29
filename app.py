@@ -393,7 +393,7 @@ def load_and_audit_v49():
         return None, "Arquivo não encontrado."
     
     try:
-        xl = pd.ExcelFile(DATA_PATH)
+        xl = pd.ExcelFile(DATA_PATH, engine="openpyxl")
         
         def clean_df(df):
             df.columns = [str(c).strip() for c in df.columns]
