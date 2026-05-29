@@ -393,6 +393,8 @@ def load_and_audit_v49():
         return None, "Arquivo não encontrado."
     
     try:
+        st.write("CAMINHO:", DATA_PATH)
+        st.write("EXISTE?", os.path.exists(DATA_PATH))
         xl = pd.ExcelFile(DATA_PATH, engine="openpyxl")
         
         def clean_df(df):
