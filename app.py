@@ -12,7 +12,12 @@ import warnings
 import os
 from datetime import datetime
 from io import BytesIO
-
+EMAIL_COMPRADORES = {
+    "YURI TOSO": "yuri@sogamax.com.br",
+    "JOICI": "joici@sogamax.com.br",
+    "GELIANA FERREIRA": "geliana@sogamax.com.br",
+    "JULLIA BORGES": "jullia@sogamax.com.br",
+}
 warnings.filterwarnings("ignore")
 
 # ─────────────────────────────────────────────
@@ -955,6 +960,77 @@ def main():
             "Produtos que exigem atenção",
             "alertas",
             ["VALOR VENDA ESTOQUE", "DIFERENCA MERCADO %"]
+        )
+                st.markdown("---")
+        st.markdown("## 📧 Gerador de E-mail para Compradores")
+
+        comprador_email = st.selectbox(
+            "Selecione o comprador:",
+            sorted(df_f["COMPRADOR"].dropna().astype(str).unique()),
+            key="email_comprador"
+        )
+
+        df_email = df_f[
+            df_f["COMPRADOR"].astype(str) == comprador_email
+        ].copy()
+
+        qtd_ruptura = int(df_email["IS_RUPTURA"].sum())
+        qtd_reposicao = int(df_email["IS_REPOSICAO"].sum())
+        qtd_parados = int(df_email["IS_PARADO"].sum())
+
+        destinatario = EMAIL_COMPRADORES.get(
+            comprador_email.upper(),
+            "EMAIL NÃO CADASTRADO"
+        )
+
+        assunto = f"SOGAMAX | Alertas de Estoque - {comprador_email}"
+
+        corpo_email = f"""
+Olá {comprador_email},
+
+Segue resumo dos principais alertas identificados:
+
+🚨 Rupturas: {qtd_ruptura}
+⚠️ Estoque Baixo: {qtd_reposicao}
+📦 Produtos Parados: {qtd_parados}
+
+Principais ações recomendadas:
+"""
+
+        top_email = df_email[
+            (df_email["IS_PARADO"]) |
+            (df_email["IS_RUPTURA"]) |
+            (df_email["IS_REPOSICAO"])
+        ].head(5)
+
+        for _, row in top_email.iterrows():
+            corpo_email += f"""
+
+• {row['DESCRIÇÃO']}
+Ação: {row['AÇÃO RECOMENDADA']}
+"""
+
+        corpo_email += """
+
+Atenciosamente,
+Equipe de Inteligência de Estoque
+"""
+
+        st.text_input(
+            "Destinatário",
+            destinatario,
+            disabled=True
+        )
+
+        st.text_input(
+            "Assunto",
+            assunto
+        )
+
+        st.text_area(
+            "Corpo do E-mail",
+            corpo_email,
+            height=350
         )
     # Abas com filtros e exportação
     with t[2]: 
