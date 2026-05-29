@@ -1047,23 +1047,34 @@ Equipe de Inteligência de Estoque
             disabled=True
         )
 
-        st.text_input(
-            "Assunto",
+st.text_input(
+    "Assunto",
+    assunto,
+    disabled=True
+)
+
+st.text_area(
+    "Corpo do E-mail",
+    corpo_email,
+    height=350
+)
+
+if st.button("📧 Enviar teste para meu e-mail"):
+    try:
+        enviar_email_outlook(
+            EMAIL_TESTE,
             assunto,
-            disabled=True
+            corpo_email
         )
 
-        st.text_area(
-                    if st.button("📧 Enviar teste para meu e-mail"):
-            try:
-                enviar_email_outlook(
-                    EMAIL_TESTE,
-                    assunto,
-                    corpo_email
-                )
-                st.success(f"E-mail de teste enviado para {EMAIL_TESTE}")
-            except Exception as e:
-                st.error(f"Erro ao enviar e-mail: {e}")
+        st.success(
+            f"E-mail de teste enviado para {EMAIL_TESTE}"
+        )
+
+    except Exception as e:
+        st.error(
+            f"Erro ao enviar e-mail: {e}"
+        )
             "Corpo do E-mail",
             corpo_email,
             height=350
