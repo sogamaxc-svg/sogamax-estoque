@@ -961,7 +961,9 @@ def main():
             "alertas",
             ["VALOR VENDA ESTOQUE", "DIFERENCA MERCADO %"]
         )
-                st.markdown("---")
+
+        st.markdown("---")
+
         st.markdown("## 📧 Gerador de E-mail para Compradores")
 
         comprador_email = st.selectbox(
@@ -1001,13 +1003,15 @@ Principais ações recomendadas:
             (df_email["IS_PARADO"]) |
             (df_email["IS_RUPTURA"]) |
             (df_email["IS_REPOSICAO"])
-        ].head(5)
+        ].copy()
+
+        top_email = top_email.head(5)
 
         for _, row in top_email.iterrows():
             corpo_email += f"""
 
-• {row['DESCRIÇÃO']}
-Ação: {row['AÇÃO RECOMENDADA']}
+• {row.get('DESCRIÇÃO', '')}
+Ação: {row.get('AÇÃO RECOMENDADA', '')}
 """
 
         corpo_email += """
@@ -1024,7 +1028,8 @@ Equipe de Inteligência de Estoque
 
         st.text_input(
             "Assunto",
-            assunto
+            assunto,
+            disabled=True
         )
 
         st.text_area(
