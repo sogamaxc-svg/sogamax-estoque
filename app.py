@@ -391,7 +391,7 @@ DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "ANALISE DE ESTOQUE 
 def load_and_audit_v49():
     if not os.path.exists(DATA_PATH):
         return None, "Arquivo não encontrado."
-    try:
+ try:
     xl = pd.ExcelFile(DATA_PATH, engine="openpyxl")
 
     def clean_df(df):
@@ -402,10 +402,11 @@ def load_and_audit_v49():
             return df.dropna(subset=['ID']).reset_index(drop=True)
 
         return df
-        # Carregar abas
-        df_todos = clean_df(pd.read_excel(xl, "TODOS OS PRODUTOS", engine="openpyxl"))
-        df_parados_oficial = clean_df(pd.read_excel(xl, "PRODUTOS PARADOS ", engine="openpyxl"))
-        df_validade_oficial = clean_df(pd.read_excel(xl, "PRODUTOS COM VALIDADE PROXIMA", engine="openpyxl"))
+
+# Carregar abas
+df_todos = clean_df(pd.read_excel(xl, "TODOS OS PRODUTOS", engine="openpyxl"))
+df_parados_oficial = clean_df(pd.read_excel(xl, "PRODUTOS PARADOS ", engine="openpyxl"))
+df_validade_oficial = clean_df(pd.read_excel(xl, "PRODUTOS COM VALIDADE PROXIMA", engine="openpyxl"))
         
         # CONTAGEM OFICIAL v4.9
         parados_count_oficial = len(df_parados_oficial)
