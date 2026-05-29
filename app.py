@@ -661,18 +661,36 @@ def main():
         ruptura_view = int(df_f["IS_RUPTURA"].sum())
         reposicao_view = int(df_f["IS_REPOSICAO"].sum())
         ok_view = int(df_f["IS_OK"].sum())
+        nivel_servico_view = ((total_produtos_view - ruptura_view) / total_produtos_view) * 100 if total_produtos_view > 0 else 0
+
+        if nivel_servico_view >= 95:
+            cor_nivel = "#68d391"
+            status_nivel = "Excelente"
+        elif nivel_servico_view >= 90:
+            cor_nivel = "#f6e05e"
+            status_nivel = "Atenção"
+        else:
+            cor_nivel = "#fc8181"
+            status_nivel = "Crítico"
 
         valor_total_view = df_f["VALOR VENDA ESTOQUE"].sum()
         custo_total_view = df_f["CUSTO ESTOQUE"].sum()
         valor_parado_view = df_f[df_f["IS_PARADO"]]["VALOR VENDA ESTOQUE"].sum()
         margem_view = valor_total_view - custo_total_view
         
-        c1, c2, c3, c4, c5 = st.columns(5)
+        c1, c2, c3, c4, c5, c6 = st.columns(6)
         with c1: metric_v49("Total Produtos", f"{total_produtos_view}", "Base filtrada")
         with c2: metric_v49("Produtos Parados", f"{produtos_parados_view}", "Filtro atual", "#fc8181")
         with c3: metric_v49("Em Ruptura", f"{ruptura_view}", "Estoque 0 + Venda", "#f6ad55")
         with c4: metric_v49("Estoque Baixo", f"{reposicao_view}", "Risco de Ruptura", "#f6e05e")
         with c5: metric_v49("Produtos OK", f"{ok_view}", "Giro Saudavel", "#68d391")
+        with c6:
+            metric_v49(
+                "Nível Serviço",
+                f"{nivel_servico_view:.1f}%",
+                f"Meta 95% | {status_nivel}",
+                cor_nivel
+            )    
         st.markdown("<br>", unsafe_allow_html=True)
         
         c_f1, c_f2, c_f3, c_f4 = st.columns(4)
