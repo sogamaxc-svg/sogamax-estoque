@@ -582,14 +582,15 @@ def main():
                 st.error("Senha incorreta")
 
         return
-# LOGO CENTRALIZADA
-col1, col2, col3 = st.columns([2,3,2])
+    # LOGO CENTRALIZADA
+    col1, col2, col3 = st.columns([2,3,2])
 
-with col2:
-    st.image(
-        "assets/logo-dashboard.png",
-        width=450
-    )
+    with col2:
+        st.image(
+            "assets/logo-dashboard.png",
+            width=450
+        )
+
     # CARREGAR DADOS
     data, error = load_and_audit_v49()
 
