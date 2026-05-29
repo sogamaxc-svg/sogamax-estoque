@@ -680,7 +680,7 @@ def main():
         with c_f2: metric_v49("Custo Total Estoque", fmt_brl(custo_total_view), "Estoque x Custo")
         with c_f3: metric_v49("Valor Parado", fmt_brl(valor_parado_view), "Capital Imobilizado", "#fc8181")
         with c_f4: metric_v49("Margem Potencial", fmt_brl(margem_view), "Lucro em Estoque", "#68d391")
-        # RANKING DE COMPRADORES
+           # RANKING DE COMPRADORES
 
         st.markdown("### Ranking de Compradores")
 
