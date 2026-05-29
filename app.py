@@ -720,35 +720,7 @@ def main():
                 hide_index=True,
                 use_container_width=True
             )
-        # Calcular margem potencial usando dados de TODOS OS PRODUTOS
-        valor_venda_geral_temp = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
-            df_todos.get("VENDA SOGAMAX", df_todos.get("VENDA SOGAMAX", pd.Series(0))).fillna(0).astype(float)
-        ).sum()
-        custo_geral_temp = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
-            df_todos.get("CUSTO SOGAMAX ", df_todos.get("CUSTO SOGAMAX", pd.Series(0))).fillna(0).astype(float)
-        ).sum()
-        margem_geral = valor_venda_geral_temp - custo_geral_temp
 
-        st.markdown("<br>", unsafe_allow_html=True)
-        
-        # NOVOS CARDS FINANCEIROS - ESTOQUE GERAL
-        c_geral1, c_geral2 = st.columns(2)
-        
-        # Card 1: Valor venda estoque geral
-        valor_venda_geral = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
-            df_todos.get("VENDA SOGAMAX", df_todos.get("VENDA SOGAMAX", pd.Series(0))).fillna(0).astype(float)
-        ).sum()
-        with c_geral1:
-            metric_v49("Valor Venda Estoque Geral", fmt_brl(valor_venda_geral), "Estoque x Venda Sogamax", "#63b3ed")
-        
-        # Card 2: Custo estoque geral
-        custo_geral = df_todos["ESTOQUE"].fillna(0).astype(float).mul(
-            df_todos.get("CUSTO SOGAMAX ", df_todos.get("CUSTO SOGAMAX", pd.Series(0))).fillna(0).astype(float)
-        ).sum()
-        with c_geral2:
-            metric_v49("Custo Estoque Geral", fmt_brl(custo_geral), "Estoque x Custo Sogamax", "#a78bfa")
-
-        st.markdown("<br>", unsafe_allow_html=True)
         # GRAFICO DE CURVAS POR COMPRADOR
         st.markdown("### Distribuicao por Curva ABC")
 
