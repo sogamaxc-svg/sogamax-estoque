@@ -1045,12 +1045,7 @@ Equipe de Inteligência de Estoque
             "Destinatário",
             destinatario,
             disabled=True
-        )
 
-        st.text_input(
-            "Destinatário",
-            destinatario,
-            disabled=True
         )
 
         st.text_input(
