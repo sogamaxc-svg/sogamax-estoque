@@ -1094,7 +1094,7 @@ SOGAMAX
             with col_email1:
 
                 if st.button(
-                    "📧 Enviar teste para meu e-mail",
+                    " Enviar teste para meu e-mail",
                     use_container_width=True
                 ):
                     try:
@@ -1116,7 +1116,7 @@ SOGAMAX
             with col_email2:
 
                 if st.button(
-                    "📨 Enviar para comprador",
+                    " Enviar para comprador",
                     use_container_width=True
                 ):
                     try:
