@@ -912,7 +912,7 @@ def main():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        st.markdown("### 🔥 Top 10 Alertas Mais Críticos")
+        st.markdown("###  Top 10 Alertas Mais Críticos")
 
         top_alertas = alertas.copy()
 
