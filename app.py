@@ -1376,26 +1376,25 @@ SOGAMAX
 """
 
             st.text_input(
-            "Destinatário",
-            value=destinatario,
-            disabled=True,
-            key=f"email_destinatario_{nome_comprador_email}"
-        )
+                "Destinatário",
+                value=destinatario,
+                disabled=True,
+                key=f"email_destinatario_{nome_comprador_email}"
+            )
 
             st.text_input(
-            "Assunto",
-            value=assunto,
-            disabled=True,
-            key=f"email_assunto_{nome_comprador_email}"
-        )
+                "Assunto",
+                value=assunto,
+                disabled=True,
+                key=f"email_assunto_{nome_comprador_email}"
+            )
 
-           st.text_area(
-            "Corpo do E-mail",
-            value=corpo_email,
-            height=350,
-            key=f"email_corpo_{nome_comprador_email}"
-        )
-
+            st.text_area(
+                "Corpo do E-mail",
+                value=corpo_email,
+                height=350,
+                key=f"email_corpo_{nome_comprador_email}"
+            )
             col_email1, col_email2 = st.columns(2)
 
             with col_email1:
