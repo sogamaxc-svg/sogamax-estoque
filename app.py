@@ -987,7 +987,7 @@ def main():
         if tipo_acesso == "Gestao / Supervisao":
 
             st.markdown("---")
-            st.markdown("## 📧 Gerador de E-mail para Compradores")
+            st.markdown("##  Gerador de E-mail para Compradores")
 
             comprador_email = st.selectbox(
                 "Selecione o comprador:",
