@@ -1046,7 +1046,7 @@ Ação Recomendada: {row.get('AÇÃO RECOMENDADA', '')}
 
 Para análise completa dos produtos sob sua responsabilidade, acesse:
 
-🔗 https://SEU-LINK-DO-STREAMLIT.streamlit.app
+🔗 https://sogamax-estoque-b6hwkhxm5xbtbfnshlkoqk.streamlit.app/
 
 No dashboard você poderá consultar:
 
