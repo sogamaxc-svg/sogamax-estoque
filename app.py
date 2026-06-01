@@ -793,101 +793,127 @@ def main():
         )
 
         st.plotly_chart(fig_curva, use_container_width=True)
-# ─────────────────────────────────────────────
-# PLANO DE AÇÃO EXECUTIVO
-# ─────────────────────────────────────────────
 
-st.markdown("## 🎯 Plano de Ação Executivo")
+        # ─────────────────────────────────────────────
+        # PLANO DE AÇÃO EXECUTIVO
+        # ─────────────────────────────────────────────
 
-acoes_executivas = []
+        st.markdown("## 🎯 Plano de Ação Executivo")
 
-# Validade
-qtd_validade = int(df_f["IS_VALIDADE"].sum())
+        acoes_executivas = []
 
-if qtd_validade > 0:
+        # Produtos parados > 365 dias
+        parados_365 = df_f[
+            (df_f["IS_PARADO"]) &
+            (df_f["DIAS DA ULTIMA VB"] > 365)
+        ]
 
-    valor_validade = df_f[
-        df_f["IS_VALIDADE"]
-    ]["VALOR VENDA ESTOQUE"].sum()
+        if len(parados_365) > 0:
 
-    acoes_executivas.append({
-        "Prioridade": "🔴 Alta",
-        "Ação": "Atuar nos produtos com validade próxima",
-        "Impacto": fmt_brl(valor_validade)
-    })
+            valor_parado = parados_365[
+                "VALOR VENDA ESTOQUE"
+            ].sum()
 
-# Parados
-parados_365 = df_f[
-    (df_f["IS_PARADO"]) &
-    (df_f["DIAS DA ULTIMA VB"] > 365)
-]
+            acoes_executivas.append({
+                "Prioridade": "🔴 Alta",
+                "Ação": f"Liquidar {len(parados_365)} produtos sem venda há mais de 365 dias",
+                "Impacto": fmt_brl(valor_parado)
+            })
 
-if len(parados_365) > 0:
+        # Rupturas em curvas AA e A
+        rupturas_aa = df_f[
+            (df_f["IS_RUPTURA"]) &
+            (df_f["CURVA"].astype(str).str.upper().isin(["AA", "A"]))
+        ]
 
-    valor_parado = parados_365[
-        "VALOR VENDA ESTOQUE"
-    ].sum()
+        if len(rupturas_aa) > 0:
 
-    acoes_executivas.append({
-        "Prioridade": "🔴 Alta",
-        "Ação": f"Liquidar {len(parados_365)} produtos sem venda há mais de 365 dias",
-        "Impacto": fmt_brl(valor_parado)
-    })
+            acoes_executivas.append({
+                "Prioridade": "🔴 Alta",
+                "Ação": f"Repor {len(rupturas_aa)} produtos de curva AA/A",
+                "Impacto": "Risco de perda de vendas"
+            })
 
-# Rupturas
-rupturas_aa = df_f[
-    (df_f["IS_RUPTURA"]) &
-    (df_f["CURVA"].astype(str).str.upper().isin(["AA", "A"]))
-]
+        # Produtos acima do mercado
+        mercado_alto = df_f[
+            df_f["DIFERENCA MERCADO %"] > 0.20
+        ]
 
-if len(rupturas_aa) > 0:
+        if len(mercado_alto) > 0:
 
-    acoes_executivas.append({
-        "Prioridade": "🟠 Média",
-        "Ação": f"Repor {len(rupturas_aa)} produtos de curva AA/A",
-        "Impacto": "Risco de perda de vendas"
-    })
+            acoes_executivas.append({
+                "Prioridade": "🟡 Atenção",
+                "Ação": f"Revisar preço de {len(mercado_alto)} produtos acima do mercado",
+                "Impacto": "Competitividade"
+            })
 
-# Mercado
-mercado_alto = df_f[
-    df_f["DIFERENCA MERCADO %"] > 0.20
-]
+        if len(acoes_executivas) > 0:
 
-if len(mercado_alto) > 0:
+            plano_df = pd.DataFrame(acoes_executivas)
 
-    acoes_executivas.append({
-        "Prioridade": "🟡 Atenção",
-        "Ação": f"Revisar preço de {len(mercado_alto)} produtos acima do mercado",
-        "Impacto": "Competitividade"
-    })
+            st.dataframe(
+                plano_df,
+                hide_index=True,
+                use_container_width=True
+            )
 
-if len(acoes_executivas) > 0:
+        else:
 
-    plano_df = pd.DataFrame(acoes_executivas)
+            st.success(
+                "Nenhuma ação crítica identificada."
+            )
 
-    st.dataframe(
-        plano_df,
-        hide_index=True,
-        use_container_width=True
-    )
-
-else:
-
-    st.success(
-        "Nenhuma ação crítica identificada."
-    )
-        # Alertas
-        
+        # Alertas e gráficos
         col_l, col_r = st.columns(2)
+
         with col_l:
-            fig = px.pie(df_f, names="CLASSIFICAÇÃO ESTRATÉGICA", title="Composição Estratégica do Estoque", hole=0.4)
-            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_color='white', margin=dict(t=40, b=0, l=0, r=0))
-            st.plotly_chart(fig, use_container_width=True)
+
+            fig = px.pie(
+                df_f,
+                names="CLASSIFICAÇÃO ESTRATÉGICA",
+                title="Composição Estratégica do Estoque",
+                hole=0.4
+            )
+
+            fig.update_layout(
+                paper_bgcolor='rgba(0,0,0,0)',
+                font_color='white',
+                margin=dict(t=40, b=0, l=0, r=0)
+            )
+
+            st.plotly_chart(
+                fig,
+                use_container_width=True
+            )
+
         with col_r:
-            top_m = df_f[df_f["IS_PARADO"]].groupby("MARCA")["VALOR VENDA ESTOQUE"].sum().nlargest(10).reset_index()
-            fig_b = px.bar(top_m, x="VALOR VENDA ESTOQUE", y="MARCA", orientation='h', title="Top 10 Marcas com Capital Imobilizado")
-            fig_b.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font_color='white')
-            st.plotly_chart(fig_b, use_container_width=True)
+
+            top_m = (
+                df_f[df_f["IS_PARADO"]]
+                .groupby("MARCA")["VALOR VENDA ESTOQUE"]
+                .sum()
+                .nlargest(10)
+                .reset_index()
+            )
+
+            fig_b = px.bar(
+                top_m,
+                x="VALOR VENDA ESTOQUE",
+                y="MARCA",
+                orientation='h',
+                title="Top 10 Marcas com Capital Imobilizado"
+            )
+
+            fig_b.update_layout(
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font_color='white'
+            )
+
+            st.plotly_chart(
+                fig_b,
+                use_container_width=True
+            )
 
     # Função para renderizar tabelas com filtros e exportação
     def show_table_with_filters(df_table, title, tab_key, cols_extra=[]):
