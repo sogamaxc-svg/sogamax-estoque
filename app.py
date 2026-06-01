@@ -22,6 +22,7 @@ EMAIL_COMPRADORES = {
     "THAMIRIS": "thamiris@sogamax.com.br",
     "THAYS ALVES": "thaysalves@sogamax.com.br",
     "MIKELLY TAMY": "mikely@sogamax.com.br",
+    "JOICI": "joici@sogamax.com.br",
 }
 
 EMAIL_TESTE = "robertojuniorp86@gmail.com"
