@@ -725,7 +725,192 @@ def main():
         with c_f2: metric_v49("Custo Total Estoque", fmt_brl(custo_total_view), "Estoque x Custo")
         with c_f3: metric_v49("Valor Parado", fmt_brl(valor_parado_view), "Capital Imobilizado", "#fc8181")
         with c_f4: metric_v49("Margem Potencial", fmt_brl(margem_view), "Lucro em Estoque", "#68d391")
-                   # RANKING DE COMPRADORES
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # ─────────────────────────────────────────────
+        # SAÚDE DO ESTOQUE
+        # ─────────────────────────────────────────────
+
+        pct_parado_view = (
+            produtos_parados_view / total_produtos_view
+        ) * 100 if total_produtos_view > 0 else 0
+
+        pct_ruptura_view = (
+            ruptura_view / total_produtos_view
+        ) * 100 if total_produtos_view > 0 else 0
+
+        if pct_ruptura_view <= 5 and pct_parado_view <= 5:
+            status_saude = "🟢 Saudável"
+            cor_saude = "#68d391"
+            detalhe_saude = "Estoque com baixo risco operacional"
+        elif pct_ruptura_view <= 12 and pct_parado_view <= 10:
+            status_saude = "🟡 Atenção"
+            cor_saude = "#f6e05e"
+            detalhe_saude = "Estoque exige acompanhamento"
+        else:
+            status_saude = "🔴 Crítico"
+            cor_saude = "#fc8181"
+            detalhe_saude = "Estoque exige plano de ação"
+
+        st.markdown("### Saúde Geral do Estoque")
+
+        c_s1, c_s2, c_s3 = st.columns(3)
+
+        with c_s1:
+            metric_v49(
+                "Saúde do Estoque",
+                status_saude,
+                detalhe_saude,
+                cor_saude
+            )
+
+        with c_s2:
+            metric_v49(
+                "% Ruptura",
+                f"{pct_ruptura_view:.1f}%",
+                "Produtos sem estoque e com venda",
+                "#f6ad55"
+            )
+
+        with c_s3:
+            metric_v49(
+                "% Produtos Parados",
+                f"{pct_parado_view:.1f}%",
+                "Produtos sem giro",
+                "#fc8181"
+            )
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # ─────────────────────────────────────────────
+        # MAIORES RISCOS FINANCEIROS
+        # ─────────────────────────────────────────────
+
+        st.markdown("### Maiores Riscos Financeiros")
+
+        df_risco_financeiro = df_f[
+            (df_f["IS_PARADO"]) |
+            (df_f["IS_RUPTURA"]) |
+            (df_f["IS_REPOSICAO"]) |
+            (df_f["IS_VALIDADE"])
+        ].copy()
+
+        if not df_risco_financeiro.empty:
+
+            df_risco_financeiro["MOTIVO_RISCO"] = "Monitorar"
+
+            df_risco_financeiro.loc[
+                df_risco_financeiro["IS_PARADO"],
+                "MOTIVO_RISCO"
+            ] = "Produto parado"
+
+            df_risco_financeiro.loc[
+                df_risco_financeiro["IS_RUPTURA"],
+                "MOTIVO_RISCO"
+            ] = "Ruptura"
+
+            df_risco_financeiro.loc[
+                df_risco_financeiro["IS_REPOSICAO"],
+                "MOTIVO_RISCO"
+            ] = "Estoque baixo"
+
+            df_risco_financeiro.loc[
+                df_risco_financeiro["IS_VALIDADE"],
+                "MOTIVO_RISCO"
+            ] = "Validade próxima"
+
+            maior_risco = df_risco_financeiro.sort_values(
+                by="VALOR VENDA ESTOQUE",
+                ascending=False
+            ).head(1)
+
+            maior_capital_parado = df_f[
+                df_f["IS_PARADO"]
+            ].sort_values(
+                by="VALOR VENDA ESTOQUE",
+                ascending=False
+            ).head(1)
+
+            c_r1, c_r2 = st.columns(2)
+
+            with c_r1:
+
+                if not maior_risco.empty:
+                    produto_risco = maior_risco.iloc[0]
+
+                    metric_v49(
+                        "Maior Risco Financeiro",
+                        fmt_brl(produto_risco["VALOR VENDA ESTOQUE"]),
+                        f"{produto_risco['DESCRIÇÃO']} | {produto_risco['MOTIVO_RISCO']}",
+                        "#fc8181"
+                    )
+
+            with c_r2:
+
+                if not maior_capital_parado.empty:
+                    produto_parado = maior_capital_parado.iloc[0]
+
+                    metric_v49(
+                        "Maior Capital Parado",
+                        fmt_brl(produto_parado["VALOR VENDA ESTOQUE"]),
+                        f"{produto_parado['DESCRIÇÃO']} | {int(produto_parado.get('DIAS DA ULTIMA VB', 0))} dias sem venda",
+                        "#f6ad55"
+                    )
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # ─────────────────────────────────────────────
+            # TOP 10 PRODUTOS MAIS CRÍTICOS FINANCEIRAMENTE
+            # ─────────────────────────────────────────────
+
+            st.markdown("### Top 10 Produtos Mais Críticos Financeiramente")
+
+            top_criticos_financeiro = df_risco_financeiro.sort_values(
+                by="VALOR VENDA ESTOQUE",
+                ascending=False
+            ).head(10)
+
+            colunas_top_financeiro = [
+                "ID",
+                "DESCRIÇÃO",
+                "MARCA",
+                "COMPRADOR",
+                "CURVA",
+                "ESTOQUE",
+                "VB 90",
+                "VALOR VENDA ESTOQUE",
+                "MOTIVO_RISCO",
+                "AÇÃO RECOMENDADA"
+            ]
+
+            colunas_top_financeiro = [
+                c for c in colunas_top_financeiro
+                if c in top_criticos_financeiro.columns
+            ]
+
+            top_financeiro_show = top_criticos_financeiro[
+                colunas_top_financeiro
+            ].copy()
+
+            if "VALOR VENDA ESTOQUE" in top_financeiro_show.columns:
+                top_financeiro_show["VALOR VENDA ESTOQUE"] = top_financeiro_show[
+                    "VALOR VENDA ESTOQUE"
+                ].apply(fmt_brl)
+
+            st.dataframe(
+                top_financeiro_show,
+                hide_index=True,
+                use_container_width=True
+            )
+
+        else:
+
+            st.success(
+                "Nenhum risco financeiro crítico identificado na base filtrada."
+            )
+
+        # RANKING DE COMPRADORES    
         if tipo_acesso == "Gestao / Supervisao":
 
             st.markdown("### Ranking de Compradores")
