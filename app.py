@@ -1317,10 +1317,10 @@ def main():
             st.caption(f"Comprador selecionado: {nome_comprador_email}")
             st.caption(f"E-mail encontrado: {destinatario}")
 
-            assunto = f"SOGAMAX | Alertas de Estoque - {comprador_email}"
+            assunto = f"SOGAMAX | Alertas de Estoque - {str(comprador_email)}"
 
             corpo_email = f"""
-Olá {comprador_email},
+Olá {str(comprador_email)},
 
 Segue resumo dos principais alertas identificados em sua carteira:
 
