@@ -414,7 +414,7 @@ def get_strategic_action_v6(row):
 # ─────────────────────────────────────────────
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "ANALISE DE ESTOQUE GERAL SOGAMAX.xlsx")
 
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=30)
 def load_and_audit_v49():
     if not os.path.exists(DATA_PATH):
         return None, "Arquivo não encontrado."
