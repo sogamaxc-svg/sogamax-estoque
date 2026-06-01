@@ -16,12 +16,14 @@ from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 from io import BytesIO
 EMAIL_COMPRADORES = {
-    "YURI TOSO": "yuritoso@sogamax.com.br",
-    "GELIANA FERREIRA": "geliana@sogamax.com.br",
-    "JULLIA BORGES": "julliaborges@sogamax.com.br",
+    "YURI": "yuritoso@sogamax.com.br",
+    "GELIANA": "geliana@sogamax.com.br",
+    "JULLIA": "julliaborges@sogamax.com.br",
+    "JULIA": "julliaborges@sogamax.com.br",
     "THAMIRIS": "thamiris@sogamax.com.br",
-    "THAYS ALVES": "thaysalves@sogamax.com.br",
-    "MIKELLY TAMY": "mikely@sogamax.com.br",
+    "THAYS": "thaysalves@sogamax.com.br",
+    "MIKELLY": "mikely@sogamax.com.br",
+    "MIKELY": "mikely@sogamax.com.br",
     "JOICI": "joici@sogamax.com.br",
 }
 
@@ -1297,12 +1299,23 @@ def main():
             qtd_reposicao = int(df_email["IS_REPOSICAO"].sum())
             qtd_parados = int(df_email["IS_PARADO"].sum())
 
-            nome_comprador_email = str(comprador_email).strip().upper()
+# ─────────────────────────────────────────────
+# LOCALIZAR E-MAIL DO COMPRADOR
+# ─────────────────────────────────────────────
 
-            destinatario = EMAIL_COMPRADORES.get(
-                nome_comprador_email,
-                "EMAIL NÃO CADASTRADO"
-            )
+nome_comprador_email = str(comprador_email).strip().upper()
+
+destinatario = "EMAIL NÃO CADASTRADO"
+
+for nome, email in EMAIL_COMPRADORES.items():
+
+    if nome in nome_comprador_email:
+        destinatario = email
+        break
+
+# DEBUG TEMPORÁRIO
+st.caption(f"Comprador selecionado: {nome_comprador_email}")
+st.caption(f"E-mail encontrado: {destinatario}")
 
             assunto = f"SOGAMAX | Alertas de Estoque - {comprador_email}"
 
