@@ -793,54 +793,54 @@ def main():
         )
 
         st.plotly_chart(fig_curva, use_container_width=True)
-        # ─────────────────────────────────────────────
-        # PLANO DE AÇÃO EXECUTIVO
-        # ─────────────────────────────────────────────
+# ─────────────────────────────────────────────
+# PLANO DE AÇÃO EXECUTIVO
+# ─────────────────────────────────────────────
 
-        st.markdown("## 🎯 Plano de Ação Executivo")
+st.markdown("## 🎯 Plano de Ação Executivo")
 
-        acoes_executivas = []
+acoes_executivas = []
 
-        # Validade
-         qtd_validade = int(df_f["IS_VALIDADE"].sum())
+# Validade
+qtd_validade = int(df_f["IS_VALIDADE"].sum())
 
-        if qtd_validade > 0:
-  
-            valor_validade = df_f[
-               df_f["IS_VALIDADE"]
-            ]["VALOR VENDA ESTOQUE"].sum()
+if qtd_validade > 0:
 
-            acoes_executivas.append({
-                "Prioridade": "🔴 Alta",
-                "Ação": "Atuar nos produtos com validade próxima",
-                 "Impacto": fmt_brl(valor_validade)
-            })
+    valor_validade = df_f[
+        df_f["IS_VALIDADE"]
+    ]["VALOR VENDA ESTOQUE"].sum()
 
-        # Parados
-        parados_365 = df_f[
-            (df_f["IS_PARADO"]) &
-            (df_f["DIAS DA ULTIMA VB"] > 365)
-        ]
+    acoes_executivas.append({
+        "Prioridade": "🔴 Alta",
+        "Ação": "Atuar nos produtos com validade próxima",
+        "Impacto": fmt_brl(valor_validade)
+    })
 
-        if len(parados_365) > 0:
+# Parados
+parados_365 = df_f[
+    (df_f["IS_PARADO"]) &
+    (df_f["DIAS DA ULTIMA VB"] > 365)
+]
 
-            valor_parado = parados_365[
-                "VALOR VENDA ESTOQUE"
-            ].sum()
+if len(parados_365) > 0:
 
-            acoes_executivas.append({
-                "Prioridade": "🔴 Alta",
-                "Ação": f"Liquidar {len(parados_365)} produtos sem venda há mais de 365 dias",
-                "Impacto": fmt_brl(valor_parado)
-            })
+    valor_parado = parados_365[
+        "VALOR VENDA ESTOQUE"
+    ].sum()
 
-        # Rupturas
-        rupturas_aa = df_f[
-            (df_f["IS_RUPTURA"]) &
-            (df_f["CURVA"].astype(str).str.upper().isin(["AA", "A"]))
-        ]
+    acoes_executivas.append({
+        "Prioridade": "🔴 Alta",
+        "Ação": f"Liquidar {len(parados_365)} produtos sem venda há mais de 365 dias",
+        "Impacto": fmt_brl(valor_parado)
+    })
 
-        if len(rupturas_aa) > 0:
+# Rupturas
+rupturas_aa = df_f[
+    (df_f["IS_RUPTURA"]) &
+    (df_f["CURVA"].astype(str).str.upper().isin(["AA", "A"]))
+]
+
+if len(rupturas_aa) > 0:
 
     acoes_executivas.append({
         "Prioridade": "🟠 Média",
