@@ -984,34 +984,35 @@ def main():
             ["VALOR VENDA ESTOQUE", "DIFERENCA MERCADO %"]
         )
 
-        st.markdown("---")
+        if tipo_acesso == "Gestao / Supervisao":
 
-        st.markdown("## 📧 Gerador de E-mail para Compradores")
+            st.markdown("---")
+            st.markdown("## 📧 Gerador de E-mail para Compradores")
 
-        comprador_email = st.selectbox(
-            "Selecione o comprador:",
-            sorted(df_f["COMPRADOR"].dropna().astype(str).unique()),
-            key="email_comprador"
-        )
+            comprador_email = st.selectbox(
+                "Selecione o comprador:",
+                sorted(df_f["COMPRADOR"].dropna().astype(str).unique()),
+                key="email_comprador"
+            )
 
-        df_email = df_f[
-            df_f["COMPRADOR"].astype(str) == comprador_email
-        ].copy()
+            df_email = df_f[
+                df_f["COMPRADOR"].astype(str) == comprador_email
+            ].copy()
 
-        qtd_ruptura = int(df_email["IS_RUPTURA"].sum())
-        qtd_reposicao = int(df_email["IS_REPOSICAO"].sum())
-        qtd_parados = int(df_email["IS_PARADO"].sum())
+            qtd_ruptura = int(df_email["IS_RUPTURA"].sum())
+            qtd_reposicao = int(df_email["IS_REPOSICAO"].sum())
+            qtd_parados = int(df_email["IS_PARADO"].sum())
 
-        nome_comprador_email = str(comprador_email).strip().upper()
+            nome_comprador_email = str(comprador_email).strip().upper()
 
-        destinatario = EMAIL_COMPRADORES.get(
-            nome_comprador_email,
-            "EMAIL NÃO CADASTRADO"
-        )
+            destinatario = EMAIL_COMPRADORES.get(
+                nome_comprador_email,
+                "EMAIL NÃO CADASTRADO"
+            )
 
-        assunto = f"SOGAMAX | Alertas de Estoque - {comprador_email}"
+            assunto = f"SOGAMAX | Alertas de Estoque - {comprador_email}"
 
-        corpo_email = f"""
+            corpo_email = f"""
 Olá {comprador_email},
 
 Segue resumo dos principais alertas identificados em sua carteira:
@@ -1023,23 +1024,23 @@ Segue resumo dos principais alertas identificados em sua carteira:
 Principais ações recomendadas:
 """
 
-        top_email = df_email[
-            (df_email["IS_PARADO"]) |
-            (df_email["IS_RUPTURA"]) |
-            (df_email["IS_REPOSICAO"])
-        ].copy()
+            top_email = df_email[
+                (df_email["IS_PARADO"]) |
+                (df_email["IS_RUPTURA"]) |
+                (df_email["IS_REPOSICAO"])
+            ].copy()
 
-        top_email = top_email.head(5)
+            top_email = top_email.head(5)
 
-        for _, row in top_email.iterrows():
+            for _, row in top_email.iterrows():
 
-            corpo_email += f"""
+                corpo_email += f"""
 
 • {row.get('DESCRIÇÃO', '')}
 Ação Recomendada: {row.get('AÇÃO RECOMENDADA', '')}
 """
 
-        corpo_email += """
+            corpo_email += """
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1066,74 +1067,82 @@ Atenciosamente,
 Roberto Junior
 SOGAMAX
 """
-        st.text_input(
-            "Destinatário",
-            destinatario,
-            disabled=True
 
-        )
+            st.text_input(
+                "Destinatário",
+                destinatario,
+                disabled=True,
+                key="email_destinatario"
+            )
 
-        st.text_input(
-            "Assunto",
-            assunto,
-            disabled=True
-        )
+            st.text_input(
+                "Assunto",
+                assunto,
+                disabled=True,
+                key="email_assunto"
+            )
 
-        st.text_area(
-            "Corpo do E-mail",
-            corpo_email,
-            height=350
-        )
+            st.text_area(
+                "Corpo do E-mail",
+                corpo_email,
+                height=350,
+                key="email_corpo"
+            )
 
-        col_email1, col_email2 = st.columns(2)
+            col_email1, col_email2 = st.columns(2)
 
-        with col_email1:
+            with col_email1:
 
-            if st.button(
-                "📧 Enviar teste para meu e-mail",
-                use_container_width=True
-            ):
-                try:
+                if st.button(
+                    "📧 Enviar teste para meu e-mail",
+                    use_container_width=True
+                ):
+                    try:
+                        enviar_email_outlook(
+                            EMAIL_TESTE,
+                            assunto,
+                            corpo_email
+                        )
 
-                    enviar_email_outlook(
-                        EMAIL_TESTE,
-                        assunto,
-                        corpo_email
-                    )
+                        st.success(
+                            f"E-mail enviado para {EMAIL_TESTE}"
+                        )
 
-                    st.success(
-                        f"E-mail enviado para {EMAIL_TESTE}"
-                    )
+                    except Exception as e:
+                        st.error(
+                            f"Erro ao enviar e-mail: {e}"
+                        )
 
-                except Exception as e:
+            with col_email2:
 
-                    st.error(
-                        f"Erro ao enviar e-mail: {e}"
-                    )
+                if st.button(
+                    "📨 Enviar para comprador",
+                    use_container_width=True
+                ):
+                    try:
+                        if destinatario == "EMAIL NÃO CADASTRADO":
+                            st.warning("Este comprador ainda não possui e-mail cadastrado.")
+                        else:
+                            enviar_email_outlook(
+                                destinatario,
+                                assunto,
+                                corpo_email
+                            )
 
-        with col_email2:
+                            st.success(
+                                f"E-mail enviado para {destinatario}"
+                            )
 
-            if st.button(
-                "📨 Enviar para comprador",
-                use_container_width=True
-            ):
-                try:
+                    except Exception as e:
+                        st.error(
+                            f"Erro ao enviar e-mail: {e}"
+                        )
 
-                    enviar_email_outlook(
-                        destinatario,
-                        assunto,
-                        corpo_email
-                    )
+        else:
 
-                    st.success(
-                        f"E-mail enviado para {destinatario}"
-                    )
-
-                except Exception as e:
-
-                    st.error(
-                        f"Erro ao enviar e-mail: {e}"
-                    )
+            st.info(
+                "Os alertas por e-mail são gerados e enviados pela Gestão / Supervisão."
+            )
     # Abas com filtros e exportação
     with t[2]: 
         cols_parados = ["SANTA CRUZ", "PROFARMA", "MEDIA CONCORRENCIA", "DIFERENCA R$", "DIFERENCA MERCADO %", "VALOR VENDA ESTOQUE"]
