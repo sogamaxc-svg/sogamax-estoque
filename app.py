@@ -1001,8 +1001,10 @@ def main():
         qtd_reposicao = int(df_email["IS_REPOSICAO"].sum())
         qtd_parados = int(df_email["IS_PARADO"].sum())
 
+        nome_comprador_email = str(comprador_email).strip().upper()
+
         destinatario = EMAIL_COMPRADORES.get(
-            comprador_email.upper(),
+            nome_comprador_email,
             "EMAIL NÃO CADASTRADO"
         )
 
@@ -1011,7 +1013,7 @@ def main():
         corpo_email = f"""
 Olá {comprador_email},
 
-Segue resumo dos principais alertas identificados:
+Segue resumo dos principais alertas identificados em sua carteira:
 
 🚨 Rupturas: {qtd_ruptura}
 ⚠️ Estoque Baixo: {qtd_reposicao}
@@ -1029,18 +1031,40 @@ Principais ações recomendadas:
         top_email = top_email.head(5)
 
         for _, row in top_email.iterrows():
+
             corpo_email += f"""
 
 • {row.get('DESCRIÇÃO', '')}
-Ação: {row.get('AÇÃO RECOMENDADA', '')}
+Ação Recomendada: {row.get('AÇÃO RECOMENDADA', '')}
 """
 
         corpo_email += """
 
-Atenciosamente,
-Equipe de Inteligência de Estoque
-"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+📊 DASHBOARD INTELIGENTE SOGAMAX
+
+Para análise completa dos produtos sob sua responsabilidade, acesse:
+
+🔗 https://SEU-LINK-DO-STREAMLIT.streamlit.app
+
+No dashboard você poderá consultar:
+
+• Produtos Parados
+• Rupturas
+• Estoque Baixo
+• Mercado & Preço
+• Validade Próxima
+• Todos os Produtos da sua carteira
+• Recomendações automáticas de ação
+
+A recomendação é acessar o painel regularmente para acompanhamento dos indicadores e tomada de decisão.
+
+Atenciosamente,
+
+Roberto Junior
+SOGAMAX
+"""
         st.text_input(
             "Destinatário",
             destinatario,
