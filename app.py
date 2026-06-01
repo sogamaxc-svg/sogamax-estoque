@@ -1299,23 +1299,23 @@ def main():
             qtd_reposicao = int(df_email["IS_REPOSICAO"].sum())
             qtd_parados = int(df_email["IS_PARADO"].sum())
 
-# ─────────────────────────────────────────────
-# LOCALIZAR E-MAIL DO COMPRADOR
-# ─────────────────────────────────────────────
+            # ─────────────────────────────────────────────
+            # LOCALIZAR E-MAIL DO COMPRADOR
+            # ─────────────────────────────────────────────
 
-nome_comprador_email = str(comprador_email).strip().upper()
+            nome_comprador_email = str(comprador_email).strip().upper()
 
-destinatario = "EMAIL NÃO CADASTRADO"
+            destinatario = "EMAIL NÃO CADASTRADO"
 
-for nome, email in EMAIL_COMPRADORES.items():
+            for nome, email in EMAIL_COMPRADORES.items():
 
-    if nome in nome_comprador_email:
-        destinatario = email
-        break
+                if nome in nome_comprador_email:
+                    destinatario = email
+                    break
 
-# DEBUG TEMPORÁRIO
-st.caption(f"Comprador selecionado: {nome_comprador_email}")
-st.caption(f"E-mail encontrado: {destinatario}")
+            # DEBUG TEMPORÁRIO
+            st.caption(f"Comprador selecionado: {nome_comprador_email}")
+            st.caption(f"E-mail encontrado: {destinatario}")
 
             assunto = f"SOGAMAX | Alertas de Estoque - {comprador_email}"
 
