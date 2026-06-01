@@ -793,6 +793,89 @@ def main():
         )
 
         st.plotly_chart(fig_curva, use_container_width=True)
+        # ─────────────────────────────────────────────
+        # PLANO DE AÇÃO EXECUTIVO
+        # ─────────────────────────────────────────────
+
+        st.markdown("## 🎯 Plano de Ação Executivo")
+
+        acoes_executivas = []
+
+        # Validade
+         qtd_validade = int(df_f["IS_VALIDADE"].sum())
+
+        if qtd_validade > 0:
+  
+            valor_validade = df_f[
+               df_f["IS_VALIDADE"]
+            ]["VALOR VENDA ESTOQUE"].sum()
+
+            acoes_executivas.append({
+                "Prioridade": "🔴 Alta",
+                "Ação": "Atuar nos produtos com validade próxima",
+                 "Impacto": fmt_brl(valor_validade)
+            })
+
+        # Parados
+        parados_365 = df_f[
+            (df_f["IS_PARADO"]) &
+            (df_f["DIAS DA ULTIMA VB"] > 365)
+        ]
+
+        if len(parados_365) > 0:
+
+            valor_parado = parados_365[
+                "VALOR VENDA ESTOQUE"
+            ].sum()
+
+            acoes_executivas.append({
+                "Prioridade": "🔴 Alta",
+                "Ação": f"Liquidar {len(parados_365)} produtos sem venda há mais de 365 dias",
+                "Impacto": fmt_brl(valor_parado)
+            })
+
+        # Rupturas
+        rupturas_aa = df_f[
+            (df_f["IS_RUPTURA"]) &
+            (df_f["CURVA"].astype(str).str.upper().isin(["AA", "A"]))
+        ]
+
+        if len(rupturas_aa) > 0:
+
+    acoes_executivas.append({
+        "Prioridade": "🟠 Média",
+        "Ação": f"Repor {len(rupturas_aa)} produtos de curva AA/A",
+        "Impacto": "Risco de perda de vendas"
+    })
+
+# Mercado
+mercado_alto = df_f[
+    df_f["DIFERENCA MERCADO %"] > 0.20
+]
+
+if len(mercado_alto) > 0:
+
+    acoes_executivas.append({
+        "Prioridade": "🟡 Atenção",
+        "Ação": f"Revisar preço de {len(mercado_alto)} produtos acima do mercado",
+        "Impacto": "Competitividade"
+    })
+
+if len(acoes_executivas) > 0:
+
+    plano_df = pd.DataFrame(acoes_executivas)
+
+    st.dataframe(
+        plano_df,
+        hide_index=True,
+        use_container_width=True
+    )
+
+else:
+
+    st.success(
+        "Nenhuma ação crítica identificada."
+    )
         # Alertas
         
         col_l, col_r = st.columns(2)
